@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <p>Welcome to the question answer forum!</p>
+    <p>Questions in our system:</p>
+    <ul>
+    {% for question in questions %}
+      <li>{{ question.title }}, by {{ question.author }} ({{ question.copyright_year }})
+      [<a href="/questions/question/{{ question.key.id }}">edit</a>]</li>
+    {% endfor %}
+    </ul>
+    <p>[<a href="/questions/question/">add a question</a>]</p>
+  </body>
+</html>
