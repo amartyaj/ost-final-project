@@ -1,6 +1,7 @@
 #from django.db import models
 # Create your models here.
 from google.appengine.ext import db
+
 class Question(db.Model):
     title = db.StringProperty(verbose_name="Question title")
     author = db.StringProperty()
