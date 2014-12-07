@@ -5,9 +5,9 @@
     <ul>
     {% for question in questions %}
       <li>{{ question.title }}, by {{ question.author }} ({{ question.copyright_year }})
-      [<a href="/questions/question/{{ question.key.id }}">edit</a>]</li>
+      [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     {% endfor %}
     </ul>
-    <p>[<a href="/questions/question/">add a question</a>]</p>
+    <p>[<a href="/questions/add_question">add a question</a>]</p>
   </body>
 </html>

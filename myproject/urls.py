@@ -14,6 +14,9 @@ urlpatterns = patterns('myproject',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^questions/question/(\d*)', 'finalproject.views.question_form'),
+    url(r'^$', 'finalproject.views.home'),
+    url(r'^questions$', 'finalproject.views.home'),
     url(r'^questions/$', 'finalproject.views.home'),
+    url(r'^questions/edit_question/(\d*)$', 'finalproject.views.question_form'),
+    url(r'^questions/add_question$', 'finalproject.views.question_form'),
 )

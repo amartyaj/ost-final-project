@@ -57,7 +57,7 @@ def question_form(request, question_id=None):
             # Show the form to create a new Question.
             form = QuestionForm()
 
-    return render_to_response('finalproject/questionform.html', {
+    return render_to_response('finalproject/question_form.html', {
         'question_id': question_id,
         'form': form,
     }, template.RequestContext(request))

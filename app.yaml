@@ -5,9 +5,17 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: .*
+- url: /
+  script: main.application
+- url: /questions
+  script: main.application
+- url: /questions/.*
   script: main.application
 
 libraries:
 - name: django
   version: "1.5"
+- name: jinja2
+  version: latest
+- name: markupsafe
+  version: latest
