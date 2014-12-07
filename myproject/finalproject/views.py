@@ -4,8 +4,9 @@ from django import template
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
-from google.appengine.ext.db import djangoforms
+#from google.appengine.ext.db import djangoforms
 
+from myproject.finalproject import djangoforms
 from myproject.finalproject import models
 #from finalproject import models
 
