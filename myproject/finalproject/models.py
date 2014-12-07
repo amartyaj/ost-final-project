@@ -15,9 +15,3 @@ class QuestionReview(db.Model):
     rating = db.StringProperty(choices=['Poor', 'OK', 'Good', 'Very Good', 'Great'],
                                default='Great')
     create_date = db.DateTimeProperty(auto_now_add=True)
-
-#class LoginInfo(db.Model):
-#    current_time = db.DateTimeProperty(auto_now_add=True)
-#    user = db.UserProperty()
-#    login_url = db.StringProperty()
-#    logout_url = db.StringProperty()
