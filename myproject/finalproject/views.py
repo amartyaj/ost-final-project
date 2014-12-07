@@ -11,6 +11,7 @@ from myproject.finalproject import models
 #from finalproject import models
 
 import datetime
+from google.appengine.api import users
 
 #def home(request):
 #    return http.HttpResponse('Welcome to the question answer forum!')
@@ -61,3 +62,21 @@ def question_form(request, question_id=None):
         'question_id': question_id,
         'form': form,
     }, template.RequestContext(request))
+
+#class LoginForm(djangoforms.ModelForm):
+#    class Meta:
+#        model = models.LoginInfo
+
+def add_question_login_form(request, question_id=None):
+    current_time = datetime.datetime.now()
+    user = users.get_current_user()
+    login_url = users.create_login_url(request.path)
+    logout_url = users.create_logout_url(request.path)
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+    }
+
+    return render_to_response('finalproject/login_form.html', context, template.RequestContext(request))

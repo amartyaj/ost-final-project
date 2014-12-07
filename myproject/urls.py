@@ -18,5 +18,5 @@ urlpatterns = patterns('myproject',
     url(r'^questions$', 'finalproject.views.home'),
     url(r'^questions/$', 'finalproject.views.home'),
     url(r'^questions/edit_question/(\d*)$', 'finalproject.views.question_form'),
-    url(r'^questions/add_question$', 'finalproject.views.question_form'),
+    url(r'^questions/add_question$', 'finalproject.views.add_question_login_form'),
 )
