@@ -2,12 +2,11 @@
   <body>
   {% if context.user.email %}
     <p>
-      Welcome, {{ context.user.email }}!
-      You can <a href="{{ context.logout_url }}">sign out</a>.
+      Hello {{ context.user.email }}!
+      (You can <a href="{{ context.logout_url }}">sign out</a> here)
     </p>
   {% else %}
     <p>
-      Welcome!
       {% if context.login_url %}
         <a href="{{ context.login_url }}">Sign in or register</a> to access this feature.
       {% else %}
