@@ -52,7 +52,7 @@ def question_form(request, question_id=None):
         if question_id:
             # Fetch the existing Question and update it from the form.
             question = models.Question.get_by_id(int(question_id))
-            question.short_question = question.long_question[:500]
+            question.short_question = question.question_text[:500]
             form = QuestionForm(request.POST, instance=question)
         else:
             # Create a new Question based on the form.
@@ -60,7 +60,7 @@ def question_form(request, question_id=None):
 
         if form.is_valid():
             question = form.save(commit=False)
-            question.short_question = question.long_question[:500]
+            question.short_question = question.question_text[:500]
             question.put()
             return HttpResponseRedirect('/questions')
         # else fall through to redisplay the form with error messages
@@ -70,7 +70,7 @@ def question_form(request, question_id=None):
         if question_id:
             # Show the form to edit an existing Question.
             question = models.Question.get_by_id(int(question_id))
-            question.short_question = question.long_question[:500]
+            question.short_question = question.question_text[:500]
             form = QuestionForm(instance=question)
         else:
             # Show the form to create a new Question.
@@ -104,7 +104,7 @@ def add_question_login_form(request):
 
             if form.is_valid():
                 question = form.save(commit=False)
-                question.short_question = question.long_question[:500]
+                question.short_question = question.question_text[:500]
                 question.put()
                 return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
@@ -142,7 +142,7 @@ def edit_question_login_form(request, question_id=None):
             if question_id:
                 # Fetch the existing Question and update it from the form.
                 question = models.Question.get_by_id(int(question_id))
-                question.short_question = question.long_question[:500]
+                question.short_question = question.question_text[:500]
                 form = QuestionForm(request.POST, instance=question)
             else:
                 # Create a new Question based on the form.
@@ -150,7 +150,7 @@ def edit_question_login_form(request, question_id=None):
 
             if form.is_valid():
                 question = form.save(commit=False)
-                question.short_question = question.long_question[:500]
+                question.short_question = question.question_text[:500]
                 question.put()
                 return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
@@ -160,7 +160,7 @@ def edit_question_login_form(request, question_id=None):
             if question_id:
                 # Show the form to edit an existing Question.
                 question = models.Question.get_by_id(int(question_id))
-                question.short_question = question.long_question[:500]
+                question.short_question = question.question_text[:500]
                 form = QuestionForm(instance=question)
             else:
                 # Show the form to create a new Question.

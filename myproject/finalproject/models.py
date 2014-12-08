@@ -8,7 +8,7 @@ class Question(db.Model):
     modified_by = db.UserProperty(auto_current_user=True)
     date_modified = db.DateTimeProperty(auto_now=True)
     short_question = db.StringProperty(multiline=True)
-    long_question = db.TextProperty(required=True)
+    question_text = db.TextProperty(required=True)
 
 class QuestionReview(db.Model):
     question = db.ReferenceProperty(Question, collection_name='reviews')

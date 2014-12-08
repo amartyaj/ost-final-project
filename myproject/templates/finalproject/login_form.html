@@ -21,7 +21,7 @@
     <p>Questions in our system:</p>
     <ul>
     {% for question in questions %}
-      <li>{{ question.created_by.email }}, {{ question.date_created }}, {{ question.long_question }}, {{ question.short_question }}
+      <li>{{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     {% endfor %}
     </ul>
