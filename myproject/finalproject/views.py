@@ -13,6 +13,7 @@ from google.appengine.api import users
 
 def home(request):
     q = models.Question.all().order('-date_modified')
+    count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -26,6 +27,7 @@ def home(request):
 
     return render_to_response('finalproject/index.html', {
         'questions': q,
+        'count': count,
         'context': context,
     }, template.RequestContext(request))
 
@@ -36,6 +38,7 @@ class QuestionForm(djangoforms.ModelForm):
 
 def question_form(request, question_id=None):
     q = models.Question.all().order('-date_modified')
+    count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -78,6 +81,7 @@ def question_form(request, question_id=None):
 
     return render_to_response('finalproject/question_form.html', {
         'questions': q,
+        'count': count,
         'question_id': question_id,
         'form': form,
         'context': context,
@@ -85,6 +89,7 @@ def question_form(request, question_id=None):
 
 def add_question_login_form(request):
     q = models.Question.all().order('-date_modified')
+    count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -119,15 +124,21 @@ def add_question_login_form(request):
 
         return render_to_response('finalproject/question_form.html', {
             'questions': q,
+            'count': count,
             'form': form,
             'context': context,
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', { 'context': context, 'questions': q, }, template.RequestContext(request))
+        return render_to_response('finalproject/login_form.html', {
+            'context': context,
+            'questions': q,
+            'count': count,
+        }, template.RequestContext(request))
 
 def edit_question_login_form(request, question_id=None):
     q = models.Question.all().order('-date_modified')
+    count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -173,10 +184,15 @@ def edit_question_login_form(request, question_id=None):
 
         return render_to_response('finalproject/question_form.html', {
             'questions': q,
+            'count': count,
             'question_id': question_id,
             'form': form,
             'context': context,
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', { 'context': context, 'questions': q, }, template.RequestContext(request))
+        return render_to_response('finalproject/login_form.html', {
+            'context': context,
+            'questions': q,
+            'count': count,
+        }, template.RequestContext(request))
