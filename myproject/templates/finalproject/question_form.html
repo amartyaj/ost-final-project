@@ -1,7 +1,12 @@
 <html>
   <body>
-
-    {% if question_id %}
+  {% if user %}
+    <p>
+      Welcome, {{ user.email }}!
+      You can <a href="{{ logout_url }}">sign out</a>.
+    </p>
+  {% endif %}
+  {% if question_id %}
     <p>Edit question {{ question_id }}:</p>
     <form action="/questions/edit_question/{{ question_id }}" method="POST">
   {% else %}

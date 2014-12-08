@@ -1,5 +1,11 @@
 <html>
   <body>
+  {% if user %}
+    <p>
+      Welcome, {{ user.email }}!
+      You can <a href="{{ logout_url }}">sign out</a>.
+    </p>
+  {% endif %}
     <p>Welcome to the question answer forum!</p>
     <p>Questions in our system:</p>
     <ul>
