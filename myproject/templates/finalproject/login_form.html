@@ -18,7 +18,11 @@
       </p>
   {% endif %}
     <p>Welcome to the question answer forum!</p>
-    <p>Questions in our system:</p>
+    {% if not questions %}
+      <p>There are currently no questions in the system.</p>
+    {% else %}
+      <p>Questions in the system:</p>
+    {% endif %}
     <ul>
     {% for question in questions %}
       <li>{{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
