@@ -13,7 +13,7 @@ from google.appengine.api import users
 
 def home(request):
     q = models.Question.all().order('-date_modified')
-    current_time = datetime.datetime.now()
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
     logout_url = users.create_logout_url(request.path)
@@ -32,11 +32,11 @@ def home(request):
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
         model = models.Question
-        exclude = ["short_question"]
+        exclude = ["short_question", "date_modified"]
 
 def question_form(request, question_id=None):
     q = models.Question.all().order('-date_modified')
-    current_time = datetime.datetime.now()
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
     logout_url = users.create_logout_url(request.path)
@@ -85,7 +85,7 @@ def question_form(request, question_id=None):
 
 def add_question_login_form(request):
     q = models.Question.all().order('-date_modified')
-    current_time = datetime.datetime.now()
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
     logout_url = users.create_logout_url(request.path)
@@ -105,6 +105,9 @@ def add_question_login_form(request):
             if form.is_valid():
                 question = form.save(commit=False)
                 question.short_question = question.question_text[:500]
+                question.date_created = question.date_created + datetime.timedelta(hours=-5)
+#               question.date_modified = question.date_modified + datetime.timedelta(hours=-5)
+                question.date_modified = current_time
                 question.put()
                 return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
@@ -125,7 +128,7 @@ def add_question_login_form(request):
 
 def edit_question_login_form(request, question_id=None):
     q = models.Question.all().order('-date_modified')
-    current_time = datetime.datetime.now()
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
     logout_url = users.create_logout_url(request.path)
@@ -151,6 +154,8 @@ def edit_question_login_form(request, question_id=None):
             if form.is_valid():
                 question = form.save(commit=False)
                 question.short_question = question.question_text[:500]
+                #question.date_modified = question.date_modified + datetime.timedelta(hours=-5)
+                question.date_modified = current_time
                 question.put()
                 return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages

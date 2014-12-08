@@ -6,7 +6,8 @@ class Question(db.Model):
     created_by = db.UserProperty(auto_current_user_add=True)
     date_created = db.DateTimeProperty(auto_now_add=True)
     modified_by = db.UserProperty(auto_current_user=True)
-    date_modified = db.DateTimeProperty(auto_now=True)
+    #date_modified = db.DateTimeProperty(auto_now=True)
+    date_modified = db.DateTimeProperty()
     short_question = db.StringProperty(multiline=True)
     question_text = db.TextProperty(required=True)
 
