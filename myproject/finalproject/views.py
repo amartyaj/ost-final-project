@@ -29,7 +29,6 @@ def home(request):
         'context': context,
     }, template.RequestContext(request))
 
-
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
         model = models.Question
