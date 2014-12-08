@@ -35,6 +35,7 @@ class QuestionForm(djangoforms.ModelForm):
         model = models.Question
 
 def question_form(request, question_id=None):
+    q = models.Question.all().order('title')
     current_time = datetime.datetime.now()
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -73,12 +74,14 @@ def question_form(request, question_id=None):
             form = QuestionForm()
 
     return render_to_response('finalproject/question_form.html', {
+        'questions': q,
         'question_id': question_id,
         'form': form,
         'context': context,
     }, template.RequestContext(request))
 
 def add_question_login_form(request):
+    q = models.Question.all().order('title')
     current_time = datetime.datetime.now()
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -108,9 +111,10 @@ def add_question_login_form(request):
             form = QuestionForm()
 
         return render_to_response('finalproject/question_form.html', {
+            'questions': q,
             'form': form,
             'context': context,
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', context, template.RequestContext(request))
+        return render_to_response('finalproject/login_form.html', { 'context': context, 'questions': q, }, template.RequestContext(request))
