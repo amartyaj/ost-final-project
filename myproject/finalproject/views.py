@@ -21,6 +21,17 @@ class QuestionForm(djangoforms.ModelForm):
         model = models.Question
 
 def question_form(request, question_id=None):
+    current_time = datetime.datetime.now()
+    user = users.get_current_user()
+    login_url = users.create_login_url(request.path)
+    logout_url = users.create_logout_url(request.path)
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+    }
+
     if request.method == 'POST':
         # The form was submitted.
         if question_id:
@@ -50,9 +61,10 @@ def question_form(request, question_id=None):
     return render_to_response('finalproject/question_form.html', {
         'question_id': question_id,
         'form': form,
+        'context': context,
     }, template.RequestContext(request))
 
-def add_question_login_form(request, question_id=None):
+def add_question_login_form(request):
     current_time = datetime.datetime.now()
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -67,13 +79,8 @@ def add_question_login_form(request, question_id=None):
     if user:
         if request.method == 'POST':
             # The form was submitted.
-            if question_id:
-                # Fetch the existing Question and update it from the form.
-                question = models.Question.get_by_id(int(question_id))
-                form = QuestionForm(request.POST, instance=question)
-            else:
-                # Create a new Question based on the form.
-                form = QuestionForm(request.POST)
+            # Create a new Question based on the form.
+            form = QuestionForm(request.POST)
 
             if form.is_valid():
                 question = form.save(commit=False)
@@ -83,17 +90,12 @@ def add_question_login_form(request, question_id=None):
 
         else:
             # The user wants to see the form.
-            if question_id:
-                # Show the form to edit an existing Question.
-                question = models.Question.get_by_id(int(question_id))
-                form = QuestionForm(instance=question)
-            else:
-                # Show the form to create a new Question.
-                form = QuestionForm()
+            # Show the form to create a new Question.
+            form = QuestionForm()
 
         return render_to_response('finalproject/question_form.html', {
-            'question_id': question_id,
             'form': form,
+            'context': context,
         }, template.RequestContext(request))
 
     else:

@@ -2,8 +2,8 @@
   <body>
   {% if user %}
     <p>
-      Welcome, {{ user.email }}!
-      You can <a href="{{ logout_url }}">sign out</a>.
+      Welcome, {{ context.user.email }}!
+      You can <a href="{{ context.logout_url }}">sign out</a>.
     </p>
   {% endif %}
     <p>Welcome to the question answer forum!</p>

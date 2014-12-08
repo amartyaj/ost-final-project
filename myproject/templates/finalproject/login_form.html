@@ -5,15 +5,18 @@
   <body>
   {% if user %}
     <p>
-      Welcome, {{ user.email }}!
-      You can <a href="{{ logout_url }}">sign out</a>.
+      Welcome, {{ context.user.email }}!
+      You can <a href="{{ context.logout_url }}">sign out</a>.
     </p>
   {% else %}
     <p>
       Welcome!
-      <a href="{{ login_url }}">Sign in or register</a> to customize.
+      {% if context.login_url %}
+        <a href="{{ context.login_url }}">Sign in or register</a> to customize.
+      {% else %}
+        <a href="{{ login_url }}">Sign in or register</a> to customize.
+      {% endif %}
       </p>
   {% endif %}
-    <p>The time is: {{ current_time }}</p>
   </body>
 </html>
