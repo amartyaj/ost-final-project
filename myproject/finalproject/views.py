@@ -60,7 +60,7 @@ def question_form(request, question_id=None):
         if form.is_valid():
             question = form.save(commit=False)
             question.put()
-            return HttpResponseRedirect('/questions/')
+            return HttpResponseRedirect('/questions')
         # else fall through to redisplay the form with error messages
 
     else:
@@ -102,7 +102,7 @@ def add_question_login_form(request):
             if form.is_valid():
                 question = form.save(commit=False)
                 question.put()
-                return HttpResponseRedirect('/questions/')
+                return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
 
         else:
@@ -146,7 +146,7 @@ def edit_question_login_form(request, question_id=None):
             if form.is_valid():
                 question = form.save(commit=False)
                 question.put()
-                return HttpResponseRedirect('/questions/')
+                return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
 
         else:
