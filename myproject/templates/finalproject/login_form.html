@@ -3,7 +3,7 @@
     <title>The Time Is...</title>
   </head>
   <body>
-  {% if user %}
+  {% if context.user.email %}
     <p>
       Welcome, {{ context.user.email }}!
       You can <a href="{{ context.logout_url }}">sign out</a>.

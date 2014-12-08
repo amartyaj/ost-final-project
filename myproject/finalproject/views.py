@@ -13,8 +13,22 @@ from google.appengine.api import users
 
 def home(request):
     q = models.Question.all().order('title')
-    return render_to_response('finalproject/index.html',
-                              { 'questions': q })
+    current_time = datetime.datetime.now()
+    user = users.get_current_user()
+    login_url = users.create_login_url(request.path)
+    logout_url = users.create_logout_url(request.path)
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+    }
+
+    return render_to_response('finalproject/index.html', {
+        'questions': q,
+        'context': context,
+    }, template.RequestContext(request))
+
 
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
