@@ -3,10 +3,12 @@
 from google.appengine.ext import db
 
 class Question(db.Model):
-    title = db.StringProperty(verbose_name="Question title")
-    author = db.StringProperty()
-    copyright_year = db.IntegerProperty()
-    author_birthdate = db.DateProperty()
+    created_by = db.UserProperty(auto_current_user_add=True)
+    date_created = db.DateTimeProperty(auto_now_add=True)
+    modified_by = db.UserProperty(auto_current_user=True)
+    date_modified = db.DateTimeProperty(auto_now=True)
+    short_question = db.StringProperty(multiline=True)
+    long_question = db.TextProperty(required=True)
 
 class QuestionReview(db.Model):
     question = db.ReferenceProperty(Question, collection_name='reviews')
