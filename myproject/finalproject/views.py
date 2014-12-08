@@ -32,6 +32,7 @@ def home(request):
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
         model = models.Question
+        exclude = ["short_question"]
 
 def question_form(request, question_id=None):
     q = models.Question.all().order('-date_modified')
