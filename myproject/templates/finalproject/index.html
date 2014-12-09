@@ -17,7 +17,7 @@
     {% endif %}
     <ul>
     {% for question in questions %}
-      <li>{{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
+      <li><a href="/questions/answers/{{ question.key.id }}">{{ question.key.id }}</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     {% endfor %}
     </ul>
