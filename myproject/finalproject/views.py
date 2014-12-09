@@ -73,7 +73,7 @@ def add_question_login_form(request):
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', {
+        return render_to_response('finalproject/question_login_form.html', {
             'context': context,
             'questions': q,
             'count': count,
@@ -133,7 +133,7 @@ def edit_question_login_form(request, question_id=None):
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', {
+        return render_to_response('finalproject/question_login_form.html', {
             'context': context,
             'questions': q,
             'count': count,
@@ -148,6 +148,7 @@ def view_question(request, question_id=None):
 #    a.filter('question=', q)
 #   count = q.count()
     a = db.Query(models.Answers)
+    a.question = q
     a.filter('question =', q)
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
@@ -171,6 +172,7 @@ def view_question(request, question_id=None):
 class AnswerForm(djangoforms.ModelForm):
     class Meta:
         model = models.Answers
+#       exclude = ["question", "date_modified"]
         exclude = ["date_modified"]
 
 def add_answer_login_form(request, question_id=None):
@@ -182,6 +184,7 @@ def add_answer_login_form(request, question_id=None):
 #    a.filter('question=', q)
 #   count = q.count()
     a = db.Query(models.Answers)
+    a.question = q
     a.filter('question =', q)
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
@@ -201,13 +204,13 @@ def add_answer_login_form(request, question_id=None):
 
             if form.is_valid():
                 answer = form.save(commit=False)
-                answer.date_created = question.date_created + datetime.timedelta(hours=-5)
+                answer.date_created = answer.date_created + datetime.timedelta(hours=-5)
                 answer.date_modified = current_time
                 answer.put()
-                return HttpResponseRedirect('/questions/question_id')
+                return HttpResponseRedirect('/questions/%d' % int(question_id))
 
         else:
-            form = QuestionForm()
+            form = AnswerForm()
 
         return render_to_response('finalproject/answer_form.html', {
             'question': q,
@@ -218,7 +221,7 @@ def add_answer_login_form(request, question_id=None):
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', {
+        return render_to_response('finalproject/answer_login_form.html', {
             'context': context,
             'question': q,
             'answers': a,
@@ -279,7 +282,7 @@ def edit_answer_login_form(request, question_id=None, answer_id=None):
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/login_form.html', {
+        return render_to_response('finalproject/answer_login_form.html', {
             'context': context,
             'questions': q,
             'count': count,

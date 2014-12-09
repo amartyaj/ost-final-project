@@ -1,0 +1,24 @@
+<html>
+  <body>
+    <p>
+      <a href="/questions">Home</a>
+    </p>
+  {% if context.user.email %}
+    <p>
+      Hello {{ context.user.email }}!
+      (You can <a href="{{ context.logout_url }}">sign out</a> here)
+    </p>
+  {% endif %}
+  {% if answer_id %}
+    <p>Edit answer {{ answer_id }}:</p>
+    <form action="/questions/edit_answer/{{ answer_id }}" method="POST">
+  {% else %}
+    <p>Create answer:</p>
+    <form action="/questions/answers/add_answer/{{ question.key.id }}" method="POST">
+  {% endif %}
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" />
+    </form>
+  </body>
+</html>
