@@ -12,7 +12,7 @@
     <p>Welcome to the question answer forum!</p>
     <p>Question:</p>
     <ul>
-      <li>{{ question.key.id }}, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
+      <li>{{ question.key.id }}, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.question_text }}
       [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     </ul>
     {% if not count %}

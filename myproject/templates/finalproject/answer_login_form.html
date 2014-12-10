@@ -25,7 +25,7 @@
       <p>Questions in the system:</p>
     {% endif %}-->
     <ul>
-      <li>{{ answers.question.key.id }}, {{ answers.question.created_by.email }}, {{ answers.question.date_created }}, {{ answers.question.date_modified }}, {{ answers.question.short_question }}
+      <li>{{ answers.question.key.id }}, {{ answers.question.created_by.email }}, {{ answers.question.date_created }}, {{ answers.question.date_modified }}, {{ answers.question.question_text }}
       [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     </ul>
     <p>Answers for the question:</p>
