@@ -10,19 +10,22 @@
     </p>
   {% endif %}
     <p>Welcome to the question answer forum!</p>
-    {% if not count %}
-      <p>There are currently no questions in the system.</p>
-    {% else %}
-      <p>Questions in the system:</p>
-    {% endif %}
+    <p>Question:</p>
     <ul>
       <li>{{ question.key.id }}, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
     </ul>
+    {% if not count %}
+      <p>There are currently no answers for this question.</p>
+    {% else %}
+      <p>Answers for the question:</p>
+    {% endif %}
     {% for answer in answers %}
-    <ul>{{ answer.answer_text }}
+    <ul>
+      <li>{{ answer.key.id }}, {{ answer.created_by.email }}, {{ answer.date_created }}, {{ answer.date_modified }}, {{ answer.answer_text }}
+          [<a href="/questions/edit_answer/{{ answer.key.id }}">edit</a>]</li>
     </ul>
     {% endfor %}
-    <p>[<a href="/questions/answers/add_answer/{{ question.key.id }}">add answer</a>]</p>
+    <p>[<a href="/questions/add_answer/{{ question.key.id }}">add answer</a>]</p>
   </body>
 </html>
