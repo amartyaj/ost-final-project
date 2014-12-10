@@ -148,8 +148,8 @@ def view_question(request, question_id=None):
 #    a.filter('question=', q)
 #   count = q.count()
     a = db.Query(models.Answers)
-    a.question = q
-    a.filter('question =', q)
+#    a.question = q
+    a.filter('question', q)
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -172,8 +172,7 @@ def view_question(request, question_id=None):
 class AnswerForm(djangoforms.ModelForm):
     class Meta:
         model = models.Answers
-#       exclude = ["question", "date_modified"]
-        exclude = ["date_modified"]
+        exclude = ["question", "date_modified"]
 
 def add_answer_login_form(request, question_id=None):
     q = models.Question
@@ -184,8 +183,8 @@ def add_answer_login_form(request, question_id=None):
 #    a.filter('question=', q)
 #   count = q.count()
     a = db.Query(models.Answers)
-    a.question = q
-    a.filter('question =', q)
+#    a.question = q
+    a.filter('question', q)
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -206,6 +205,7 @@ def add_answer_login_form(request, question_id=None):
                 answer = form.save(commit=False)
                 answer.date_created = answer.date_created + datetime.timedelta(hours=-5)
                 answer.date_modified = current_time
+                answer.question = q
                 answer.put()
                 return HttpResponseRedirect('/questions/%d' % int(question_id))
 

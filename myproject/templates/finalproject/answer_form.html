@@ -14,6 +14,7 @@
     <form action="/questions/edit_answer/{{ answer_id }}" method="POST">
   {% else %}
     <p>Create answer:</p>
+    <p>{{ question.key.id }}</p>
     <form action="/questions/answers/add_answer/{{ question.key.id }}" method="POST">
   {% endif %}
       {% csrf_token %}
