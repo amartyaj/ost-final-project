@@ -327,7 +327,10 @@ def question_vote_up_login_form(request, question_id=None):
 
         v1 = models.QuestionVotes(question=q, vote="Up", date_created=current_time, date_modified=current_time)
         v1.put()
-
+        votes = q.total_votes
+        votes = votes+1
+        q1 = models.Question(id=question_id, total_votes=votes)
+        q1.put()
     if user:
         #form = QuestionForm(instance=q)
         return render_to_response('finalproject/view_question.html', {
