@@ -281,9 +281,16 @@ def edit_answer_login_form(request, answer_id=None):
             'answer_id': answer_id,
         }, template.RequestContext(request))
 
+class QuestionVotesForm(djangoforms.ModelForm):
+    class Meta:
+        model = models.QuestionVotes
+
 def question_vote_up_login_form(request, question_id=None):
-    q = models.Question.all().order('-date_modified')
-    count = q.count()
+    q = models.Question
+    q = q.get_by_id(int(question_id))
+    a = db.Query(models.Answers)
+    a.filter('question', q)
+    count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -295,50 +302,47 @@ def question_vote_up_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
 
+    v = db.Query(models.QuestionVotes)
+    v.filter('question', q)
+    v.filter('created_by', user)
+    vote_count = v.count()
+#    question_votes = models.QuestionVotes.get_by_id(v.key().id())
+#    v1 = models.QuestionVotes(instance=question_votes)
+#    if (vote_count > 0):
+#        question_votes = models.QuestionVotes.get_by_id(v.key().id())
+#        form = QuestionVotesForm(instance=question_votes)
+#    else:
+#        question_votes = models.QuestionVotes
+#        form = QuestionVotesForm(instance=question_votes)
+#    question_votes = form.save(commit=False)
+    if (vote_count > 0):
+        v.vote = "Up"
+#        v.date_created = question_votes.date_created + datetime.timedelta(hours=-5)
+        v.date_modified = current_time
+    else:
+#        v1.question = q
+#        v1.vote = "Up"
+#        v1.date_created = current_time
+#        v1.date_modified = current_time
+
+        v1 = models.QuestionVotes(question=q, vote="Up", date_created=current_time, date_modified=current_time)
+        v1.put()
+
     if user:
-        if request.method == 'POST':
-            if question_id:
-                # Fetch the existing Question and update it from the form.
-                question = models.Question.get_by_id(int(question_id))
-                question.short_question = question.question_text[:500]
-                form = QuestionForm(request.POST, instance=question)
-            else:
-                # Create a new Question based on the form.
-                form = QuestionForm(request.POST)
-
-            if form.is_valid():
-                question = form.save(commit=False)
-                question.short_question = question.question_text[:500]
-                #question.date_modified = question.date_modified + datetime.timedelta(hours=-5)
-                question.date_modified = current_time
-                question.put()
-                return HttpResponseRedirect('/questions')
-            # else fall through to redisplay the form with error messages
-
-        else:
-            # The user wants to see the form.
-            if question_id:
-                # Show the form to edit an existing Question.
-                question = models.Question.get_by_id(int(question_id))
-                question.short_question = question.question_text[:500]
-                form = QuestionForm(instance=question)
-            else:
-                # Show the form to create a new Question.
-                form = QuestionForm()
-
-        return render_to_response('finalproject/question_form.html', {
-            'questions': q,
+        #form = QuestionForm(instance=q)
+        return render_to_response('finalproject/view_question.html', {
+            'question': q,
+            'answers': a,
             'count': count,
-            'question_id': question_id,
-            'form': form,
             'context': context,
         }, template.RequestContext(request))
 
     else:
-        return render_to_response('finalproject/question_login_form.html', {
-            'context': context,
-            'questions': q,
+        return render_to_response('finalproject/vote_login_form.html', {
+            'question': q,
+            'answers': a,
             'count': count,
+            'context': context,
         }, template.RequestContext(request))
 
 #def question_vote_down_login_form(request, question_id=None):
