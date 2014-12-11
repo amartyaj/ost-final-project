@@ -212,7 +212,7 @@ def add_answer_login_form(request, question_id=None):
         return render_to_response('finalproject/answer_login_form.html', {
             'context': context,
             'question': q,
-            'answers': a,
+            'all_answers': a,
             'count': count,
         }, template.RequestContext(request))
 
@@ -276,6 +276,7 @@ def edit_answer_login_form(request, answer_id=None):
         return render_to_response('finalproject/answer_login_form.html', {
             'context': context,
             'answers': a,
+            'question': q,
             'all_answers': all_a,
             'answer_id': answer_id,
         }, template.RequestContext(request))
