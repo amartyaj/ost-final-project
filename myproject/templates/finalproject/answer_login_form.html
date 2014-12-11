@@ -26,13 +26,31 @@
     {% endif %}-->
     <ul>
       <li>{{ answers.question.key.id }}, {{ answers.question.created_by.email }}, {{ answers.question.date_created }}, {{ answers.question.date_modified }}, {{ answers.question.question_text }}
-      [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
+      {% if answers.question.total_votes == 0 %}
+        [{{ answers.question.total_votes }}]
+      {% elif answers.question.total_votes > 0 %}
+        [+{{ answers.question.total_votes }}]
+      {% else %}
+        [-{{ answers.question.total_votes }}]
+      {% endif %}
+        [<a href="/questions/question_vote_up/{{ answers.question.key.id }}">Up</a>]
+        [<a href="/questions/question_vote_down/{{ answers.question.key.id }}">Down</a>]
+        [<a href="/questions/edit_question/{{ answers.question.key.id }}">Edit</a>]</li>
     </ul>
     <p>Answers for the question:</p>
     {% for answer in all_answers %}
     <ul>
       <li>{{ answer.key.id }}, {{ answer.created_by.email }}, {{ answer.date_created }}, {{ answer.date_modified }}, {{ answer.answer_text }}
-          [<a href="/questions/edit_answer/{{ answer.key.id }}">edit</a>]</li>
+      {% if answer.total_votes == 0 %}
+        [{{ answer.total_votes }}]
+      {% elif answer.total_votes > 0 %}
+        [+{{ answer.total_votes }}]
+      {% else %}
+        [-{{ answer.total_votes }}]
+      {% endif %}
+        [<a href="/questions/answer_vote_up/{{ answer.key.id }}">Up</a>]
+        [<a href="/questions/answer_vote_down/{{ answer.key.id }}">Down</a>]
+        [<a href="/questions/edit_answer/{{ answer.key.id }}">Edit</a>]</li>
     </ul>
     {% endfor %}
     <p>[<a href="/questions/add_question">add a question</a>]</p>

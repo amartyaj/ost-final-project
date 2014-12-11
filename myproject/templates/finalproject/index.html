@@ -18,7 +18,7 @@
     <ul>
     {% for question in questions %}
       <li><a href="/questions/{{ question.key.id }}">{{ question.key.id }}</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
-      [<a href="/questions/edit_question/{{ question.key.id }}">edit</a>]</li>
+      [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
     {% endfor %}
     </ul>
     <p>[<a href="/questions/add_question">add question</a>]</p>

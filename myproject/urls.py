@@ -22,4 +22,8 @@ urlpatterns = patterns('myproject',
     url(r'^questions/edit_question/(\d+)$', 'finalproject.views.edit_question_login_form'),
     url(r'^questions/add_answer/(\d+)$', 'finalproject.views.add_answer_login_form'),
     url(r'^questions/edit_answer/(\d+)$', 'finalproject.views.edit_answer_login_form'),
+    url(r'^questions/question_vote_up/(\d+)$', 'finalproject.views.question_vote_up_login_form'),
+    url(r'^questions/question_vote_down/(\d+)$', 'finalproject.views.question_vote_down_login_form'),
+    url(r'^questions/answer_vote_up/(\d+)$', 'finalproject.views.answer_vote_up_login_form'),
+    url(r'^questions/answer_vote_down/(\d+)$', 'finalproject.views.answer_vote_down_login_form'),
 )
