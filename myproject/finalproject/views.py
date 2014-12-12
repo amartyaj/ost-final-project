@@ -306,15 +306,21 @@ def question_vote_up_login_form(request, question_id=None):
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
-        v.order('-date_modified').fetch(limit=1)
-        v.filter('vote', "Up")
-        up_vote_count = v.count()
+        v.order('-date_modified')
+        v_tmp = v.get()
+        up_vote_count = 0
+        if v_tmp:
+            if (v_tmp.vote == "Up"):
+                up_vote_count = 1
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
-        v.order('-date_modified').fetch(limit=1)
-        v.filter('vote', "Down")
-        down_vote_count = v.count()
+        v.order('-date_modified')
+        v_tmp = v.get()
+        down_vote_count = 0
+        if v_tmp:
+            if (v_tmp.vote == "Down"):
+                down_vote_count = 1
 
         if (up_vote_count > 0):
             v1 = models.QuestionVotes(question=q, vote="Up", date_modified=current_time)
@@ -365,16 +371,21 @@ def question_vote_down_login_form(request, question_id=None):
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
-        v.order('-date_modified').fetch(limit=1)
-        v.filter('vote', "Up")
-        up_vote_count = v.count()
+        v.order('-date_modified')
+        v_tmp = v.get()
+        up_vote_count = 0
+        if v_tmp:
+            if (v_tmp.vote == "Up"):
+                up_vote_count = 1
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
-        v.order('-date_modified').fetch(limit=1)
-        v.filter('vote', "Down")
-        down_vote_count = v.count()
-
+        v.order('-date_modified')
+        v_tmp = v.get()
+        down_vote_count = 0
+        if v_tmp:
+            if (v_tmp.vote == "Down"):
+                down_vote_count = 1
         if (down_vote_count > 0):
             v1 = models.QuestionVotes(question=q, vote="Down", date_modified=current_time)
             v1.put()
