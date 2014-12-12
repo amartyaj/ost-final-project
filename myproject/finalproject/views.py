@@ -60,12 +60,13 @@ def add_question_login_form(request):
 
             if form.is_valid():
                 question = form.save(commit=False)
+                question_tmp = form.save(commit=False)
                 question.short_question = question.question_text[:500]
                 question.date_created = question.date_created + datetime.timedelta(hours=-5)
                 question.date_modified = current_time
-                if question.question_tag:
+                if question_tmp.question_tag:
                     #question.question_tags = [" "]
-                    question.question_tags = [question.question_tag]
+                    question.question_tags = [str(question_tmp.question_tag)]
                 question.put()
                 return HttpResponseRedirect('/questions')
 
