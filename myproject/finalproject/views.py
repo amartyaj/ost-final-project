@@ -65,7 +65,7 @@ def add_question_login_form(request):
                 question.date_created = question.date_created + datetime.timedelta(hours=-5)
                 question.date_modified = current_time
                 if question_tmp.question_tag:
-                    tags_list = question_tmp.question_tag.rstrip().split('\n')
+                    tags_list = question_tmp.question_tag.rstrip().split("\r\n")
                     question.question_tag = question_tmp.question_tag
                     #question.question_tags = question.question_tags.append(str(question_tmp.question_tag))
                     #question.question_tags = [str(question_tmp.question_tag)]
