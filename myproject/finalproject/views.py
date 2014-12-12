@@ -302,37 +302,31 @@ def question_vote_up_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
 
-    v = db.Query(models.QuestionVotes)
-    v.filter('question', q)
-    v.filter('created_by', user)
-    vote_count = v.count()
-#    question_votes = models.QuestionVotes.get_by_id(v.key().id())
-#    v1 = models.QuestionVotes(instance=question_votes)
-#    if (vote_count > 0):
-#        question_votes = models.QuestionVotes.get_by_id(v.key().id())
-#        form = QuestionVotesForm(instance=question_votes)
-#    else:
-#        question_votes = models.QuestionVotes
-#        form = QuestionVotesForm(instance=question_votes)
-#    question_votes = form.save(commit=False)
-    if (vote_count > 0):
-        v.vote = "Up"
-#        v.date_created = question_votes.date_created + datetime.timedelta(hours=-5)
-        v.date_modified = current_time
-    else:
-#        v1.question = q
-#        v1.vote = "Up"
-#        v1.date_created = current_time
-#        v1.date_modified = current_time
-
-        v1 = models.QuestionVotes(question=q, vote="Up", date_created=current_time, date_modified=current_time)
-        v1.put()
-        votes = q.total_votes
-        votes = votes+1
-        q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
-        q1.put()
     if user:
-        #form = QuestionForm(instance=q)
+        v = db.Query(models.QuestionVotes)
+        v.filter('question', q)
+        v.filter('created_by', user)
+        v.filter('vote', "Up")
+        up_vote_count = v.count()
+        v = db.Query(models.QuestionVotes)
+        v.filter('question', q)
+        v.filter('created_by', user)
+        v.filter('vote', "Down")
+        down_vote_count = v.count()
+
+        if (up_vote_count > 0):
+            v1 = models.QuestionVotes(question=q, vote="Up", date_modified=current_time)
+            v1.put()
+        else:
+            v1 = models.QuestionVotes(question=q, vote="Up", date_created=current_time, date_modified=current_time)
+            v1.put()
+            votes = q.total_votes
+            if (down_vote_count > 0):
+                votes = votes+2
+            else:
+                votes = votes+1
+            q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+            q1.put()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -348,6 +342,61 @@ def question_vote_up_login_form(request, question_id=None):
             'context': context,
         }, template.RequestContext(request))
 
-#def question_vote_down_login_form(request, question_id=None):
+def question_vote_down_login_form(request, question_id=None):
+    q = models.Question
+    q = q.get_by_id(int(question_id))
+    a = db.Query(models.Answers)
+    a.filter('question', q)
+    count = a.count()
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
+    user = users.get_current_user()
+    login_url = users.create_login_url(request.path)
+    logout_url = users.create_logout_url(request.path)
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+    }
+
+    if user:
+        v = db.Query(models.QuestionVotes)
+        v.filter('question', q)
+        v.filter('created_by', user)
+        v.filter('vote', "Up")
+        up_vote_count = v.count()
+        v = db.Query(models.QuestionVotes)
+        v.filter('question', q)
+        v.filter('created_by', user)
+        v.filter('vote', "Down")
+        down_vote_count = v.count()
+        if (down_vote_count > 0):
+            v1 = models.QuestionVotes(question=q, vote="Down", date_modified=current_time)
+            v1.put()
+        else:
+            v1 = models.QuestionVotes(question=q, vote="Down", date_created=current_time, date_modified=current_time)
+            v1.put()
+            votes = q.total_votes
+            if (up_vote_count > 0):
+                votes = votes-2
+            else:
+                votes = votes-1
+            q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+            q1.put()
+        return render_to_response('finalproject/view_question.html', {
+            'question': q,
+            'answers': a,
+            'count': count,
+            'context': context,
+        }, template.RequestContext(request))
+
+    else:
+        return render_to_response('finalproject/vote_login_form.html', {
+            'question': q,
+            'answers': a,
+            'count': count,
+            'context': context,
+        }, template.RequestContext(request))
+
 #def answer_vote_up_login_form(request, answer_id=None):
 #def answer_vote_down_login_form(request, answer_id=None):
