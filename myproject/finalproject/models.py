@@ -11,7 +11,8 @@ class Question(db.Model):
     short_question = db.StringProperty(multiline=True)
     question_text = db.TextProperty(required=True)
     total_votes = db.IntegerProperty(default=0)
-    question_tags = db.StringListProperty()
+    question_tag = db.TextProperty()
+    question_tags = db.StringListProperty(default=None)
 
 class Answers(db.Model):
     question = db.ReferenceProperty(Question, collection_name='answers')

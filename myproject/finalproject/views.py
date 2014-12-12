@@ -38,7 +38,7 @@ def home(request):
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
         model = models.Question
-        exclude = ["short_question", "date_modified", "total_votes"]
+        exclude = ["short_question", "date_modified", "total_votes", "question_tags"]
 
 def add_question_login_form(request):
     q = models.Question.all().order('-date_modified')
@@ -63,6 +63,9 @@ def add_question_login_form(request):
                 question.short_question = question.question_text[:500]
                 question.date_created = question.date_created + datetime.timedelta(hours=-5)
                 question.date_modified = current_time
+                if question.question_tag:
+                    #question.question_tags = [" "]
+                    question.question_tags = [question.question_tag]
                 question.put()
                 return HttpResponseRedirect('/questions')
 
