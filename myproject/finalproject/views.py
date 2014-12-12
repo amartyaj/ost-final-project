@@ -329,7 +329,7 @@ def question_vote_up_login_form(request, question_id=None):
         v1.put()
         votes = q.total_votes
         votes = votes+1
-        q1 = models.Question(id=question_id, total_votes=votes)
+        q1 = models.Question(key=q.key(), total_votes=votes)
         q1.put()
     if user:
         #form = QuestionForm(instance=q)
