@@ -126,12 +126,13 @@ def edit_question_login_form(request, question_id=None):
                 question.short_question = question.question_text[:500]
                 #question.date_modified = question.date_modified + datetime.timedelta(hours=-5)
                 question.date_modified = current_time
+
                 if question_tmp.question_tag:
-                    tags_list = question_tmp.question_tag.rstrip().split("\r\n"):
+                    tags_list = question_tmp.question_tag.rstrip().split("\r\n")
                     question.question_tag = question_tmp.question_tag
                     tags_list = set(tags_list)
                     tags_list = list(tags_list)
-                    question.question_tags = question_tmp.question_tags.append(tags_list)
+                    question.question_tags = tags_list
                 question.put()
                 return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
