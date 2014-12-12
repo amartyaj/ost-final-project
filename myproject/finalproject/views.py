@@ -9,7 +9,7 @@ from myproject.finalproject import djangoforms
 from myproject.finalproject import models
 
 import datetime
-#import time
+import time
 from google.appengine.api import users
 
 def home(request):
@@ -26,7 +26,9 @@ def home(request):
         'logout_url': logout_url,
     }
 
-#   time.sleep(1)
+    time.sleep(0.1)
+    q = models.Question.all().order('-date_modified')
+    count = q.count()
     return render_to_response('finalproject/index.html', {
         'questions': q,
         'count': count,
@@ -67,7 +69,9 @@ def add_question_login_form(request):
         else:
             form = QuestionForm()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        q = models.Question.all().order('-date_modified')
+        count = q.count()
         return render_to_response('finalproject/question_form.html', {
             'questions': q,
             'count': count,
@@ -127,7 +131,9 @@ def edit_question_login_form(request, question_id=None):
                 # Show the form to create a new Question.
                 form = QuestionForm()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        q = models.Question.all().order('-date_modified')
+        count = q.count()
         return render_to_response('finalproject/question_form.html', {
             'questions': q,
             'count': count,
@@ -160,7 +166,12 @@ def view_question(request, question_id=None):
         'logout_url': logout_url,
     }
 
-#   time.sleep(1)
+    time.sleep(0.1)
+    q = models.Question
+    q = q.get_by_id(int(question_id))
+    a = db.Query(models.Answers)
+    a.filter('question', q)
+    count = a.count()
     return render_to_response('finalproject/view_question.html', {
         'question': q,
         'answers': a,
@@ -205,7 +216,12 @@ def add_answer_login_form(request, question_id=None):
         else:
             form = AnswerForm()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        q = models.Question
+        q = q.get_by_id(int(question_id))
+        a = db.Query(models.Answers)
+        a.filter('question', q)
+        count = a.count()
         return render_to_response('finalproject/answer_form.html', {
             'question': q,
             'answers': a,
@@ -229,7 +245,7 @@ def edit_answer_login_form(request, answer_id=None):
     q = q.get_by_id(int(a.question.key().id()))
     all_a = db.Query(models.Answers)
     all_a.filter('question', q)
-#    count = q.count()
+    #count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -270,10 +286,12 @@ def edit_answer_login_form(request, answer_id=None):
                 # Show the form to create a new Question.
                 form = AnswerForm()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        a = models.Answers
+        a = a.get_by_id(int(answer_id))
         return render_to_response('finalproject/answer_form.html', {
             'answers': a,
-#            'count': count,
+            #'count': count,
             'answer_id': answer_id,
             'form': form,
             'context': context,
@@ -343,7 +361,12 @@ def question_vote_up_login_form(request, question_id=None):
             q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
             q1.put()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        q = models.Question
+        q = q.get_by_id(int(question_id))
+        a = db.Query(models.Answers)
+        a.filter('question', q)
+        count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -409,7 +432,12 @@ def question_vote_down_login_form(request, question_id=None):
             q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
             q1.put()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        q = models.Question
+        q = q.get_by_id(int(question_id))
+        a = db.Query(models.Answers)
+        a.filter('question', q)
+        count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -482,7 +510,14 @@ def answer_vote_up_login_form(request, answer_id=None):
             a1 = models.Answers(key=ans.key(), question=ans.question, created_by=ans.created_by, date_created=ans.date_created, modified_by=ans.modified_by, date_modified=ans.date_modified, answer_text=ans.answer_text, total_votes=votes)
             a1.put()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        ans = models.Answers
+        ans = ans.get_by_id(int(answer_id))
+        q = models.Question
+        q = q.get_by_id(int(ans.question.key().id()))
+        a = db.Query(models.Answers)
+        a.filter('question', q)
+        count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -551,7 +586,14 @@ def answer_vote_down_login_form(request, answer_id=None):
             a1 = models.Answers(key=ans.key(), question=ans.question, created_by=ans.created_by, date_created=ans.date_created, modified_by=ans.modified_by, date_modified=ans.date_modified, answer_text=ans.answer_text, total_votes=votes)
             a1.put()
 
-#       time.sleep(1)
+        time.sleep(0.1)
+        ans = models.Answers
+        ans = ans.get_by_id(int(answer_id))
+        q = models.Question
+        q = q.get_by_id(int(ans.question.key().id()))
+        a = db.Query(models.Answers)
+        a.filter('question', q)
+        count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
