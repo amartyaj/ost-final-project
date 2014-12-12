@@ -10,6 +10,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: AnswerVotes
+  properties:
+  - name: answer
+  - name: created_by
+  - name: date_modified
+    direction: desc
+
+- kind: QuestionVotes
+  properties:
+  - name: answer
+  - name: created_by
+  - name: date_modified
+    direction: desc
+
 - kind: QuestionVotes
   properties:
   - name: created_by
