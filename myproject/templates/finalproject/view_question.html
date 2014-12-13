@@ -41,7 +41,9 @@
       {% endif %}
         [<a href="/questions/answer_vote_up/{{ answer.key.id }}">Up</a>]
         [<a href="/questions/answer_vote_down/{{ answer.key.id }}">Down</a>]
-        [<a href="/questions/edit_answer/{{ answer.key.id }}">Edit</a>]</li>
+        {% if context.user.email == answer.created_by.email %}
+          [<a href="/questions/edit_answer/{{ answer.key.id }}">Edit</a>]</li>
+        {% endif %}
     </ul>
     {% endfor %}
     <p>[<a href="/questions/add_answer/{{ question.key.id }}">add answer</a>]</p>

@@ -209,6 +209,7 @@ def view_question(request, question_id=None):
     q = q.get_by_id(int(question_id))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     r1 = re.compile(r"(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
@@ -237,6 +238,7 @@ def add_answer_login_form(request, question_id=None):
     q = q.get_by_id(int(question_id))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -297,6 +299,7 @@ def edit_answer_login_form(request, answer_id=None):
     q = q.get_by_id(int(a.question.key().id()))
     all_a = db.Query(models.Answers)
     all_a.filter('question', q)
+    all_a.order('-total_votes')
     #count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -371,6 +374,7 @@ def question_vote_up_login_form(request, question_id=None):
     q = q.get_by_id(int(question_id))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -431,6 +435,7 @@ def question_vote_up_login_form(request, question_id=None):
         q = q.get_by_id(int(question_id))
         a = db.Query(models.Answers)
         a.filter('question', q)
+        a.order('-total_votes')
         count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -452,6 +457,7 @@ def question_vote_down_login_form(request, question_id=None):
     q = q.get_by_id(int(question_id))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -511,6 +517,7 @@ def question_vote_down_login_form(request, question_id=None):
         q = q.get_by_id(int(question_id))
         a = db.Query(models.Answers)
         a.filter('question', q)
+        a.order('-total_votes')
         count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -538,6 +545,7 @@ def answer_vote_up_login_form(request, answer_id=None):
     q = q.get_by_id(int(ans.question.key().id()))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -591,6 +599,7 @@ def answer_vote_up_login_form(request, answer_id=None):
         q = q.get_by_id(int(ans.question.key().id()))
         a = db.Query(models.Answers)
         a.filter('question', q)
+        a.order('-total_votes')
         count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -614,6 +623,7 @@ def answer_vote_down_login_form(request, answer_id=None):
     q = q.get_by_id(int(ans.question.key().id()))
     a = db.Query(models.Answers)
     a.filter('question', q)
+    a.order('-total_votes')
     count = a.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -667,6 +677,7 @@ def answer_vote_down_login_form(request, answer_id=None):
         q = q.get_by_id(int(ans.question.key().id()))
         a = db.Query(models.Answers)
         a.filter('question', q)
+        a.order('-total_votes')
         count = a.count()
         return render_to_response('finalproject/view_question.html', {
             'question': q,

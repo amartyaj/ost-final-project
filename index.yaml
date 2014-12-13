@@ -17,6 +17,17 @@ indexes:
   - name: date_modified
     direction: desc
 
+- kind: Answers
+  properties:
+  - name: question
+  - name: total_votes
+
+- kind: Answers
+  properties:
+  - name: question
+  - name: total_votes
+    direction: desc
+
 - kind: QuestionVotes
   properties:
   - name: answer
