@@ -15,7 +15,7 @@ from google.appengine.api import users
 
 def home(request):
     q = models.Question.all().order('-date_modified')
-    q_gql = models.Question.gql("WHERE question_tags = 'First'")
+    #q_gql = models.Question.gql("WHERE question_tags = 'First'")
     count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -32,14 +32,15 @@ def home(request):
     #q = models.Question.all().order('-date_modified')
     #count = q.count()
     q_tags = []
-    #for i in models.Question.all():
-        #q_tags.append(i.question_tags)
+    for i in models.Question.all():
+        for j in i.question_tags:
+            q_tags.append(j)
         #q_tags = set(q_tags)
         #q_tags = list(q_tags)
-    for i in q_gql:
-        for j in i.question_tags:
+    #for i in q_gql:
+        #for j in i.question_tags:
             #j.decode('utf8')
-            q_tags.append(j)
+            #q_tags.append(j)
     q_tags = set(q_tags)
     q_tags = list(q_tags)
 

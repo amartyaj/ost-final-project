@@ -25,7 +25,9 @@
     <p>Tags:</p>
     <ul>
     {% for tag in tags %}
-      <li>{{ tag }}</li>
+        {% if tag != "" or tag != " " %}
+          <li>{{ tag }}</li>
+        {% endif %}
     {% endfor %}
   </body>
 </html>
