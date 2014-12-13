@@ -362,6 +362,7 @@ def question_vote_up_login_form(request, question_id=None):
     }
 
     if user:
+        question_tmp = models.Question.get_by_id(int(question_id))
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
@@ -392,7 +393,15 @@ def question_vote_up_login_form(request, question_id=None):
                 votes = votes+2
             else:
                 votes = votes+1
-            q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+            if question_tmp.question_tag:
+                tags_list = question_tmp.question_tag.rstrip().split("\r\n")
+                q.question_tag = question_tmp.question_tag
+                tags_list = set(tags_list)
+                tags_list = list(tags_list)
+                q.question_tags = tags_list
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
+            else:
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
             q1.put()
 
         time.sleep(0.1)
@@ -434,6 +443,7 @@ def question_vote_down_login_form(request, question_id=None):
     }
 
     if user:
+        question_tmp = models.Question.get_by_id(int(question_id))
         v = db.Query(models.QuestionVotes)
         v.filter('question', q)
         v.filter('created_by', user)
@@ -463,7 +473,15 @@ def question_vote_down_login_form(request, question_id=None):
                 votes = votes-2
             else:
                 votes = votes-1
-            q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+            if question_tmp.question_tag:
+                tags_list = question_tmp.question_tag.rstrip().split("\r\n")
+                q.question_tag = question_tmp.question_tag
+                tags_list = set(tags_list)
+                tags_list = list(tags_list)
+                q.question_tags = tags_list
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
+            else:
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
             q1.put()
 
         time.sleep(0.1)
