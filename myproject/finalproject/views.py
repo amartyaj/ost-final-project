@@ -130,7 +130,7 @@ def edit_question_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
 
-    if user:
+    if (user == models.Question.get_by_id(int(question_id)).created_by):
         if request.method == 'POST':
             if question_id:
                 # Fetch the existing Question and update it from the form.
@@ -312,7 +312,7 @@ def edit_answer_login_form(request, answer_id=None):
         'logout_url': logout_url,
     }
 
-    if user:
+    if (user == models.Answers.get_by_id(int(answer_id)).created_by):
         if request.method == 'POST':
             if answer_id:
                 # Fetch the existing Question and update it from the form.
