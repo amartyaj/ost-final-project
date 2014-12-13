@@ -210,10 +210,14 @@ def view_question(request, question_id=None):
     a = db.Query(models.Answers)
     a.filter('question', q)
     count = a.count()
-    regex_tmp = re.search('(https://.*)', q.question_text.rstrip())
-    regex_tmp1 = regex_tmp.group()
-    #q.question_text = re.sub('https://.*','<a href="https://google.com">Google</a>', q.question_text.rstrip())
-    q.question_text = re.sub(regex_tmp1, '<a href="regex_tmp1">Google</a>', q.question_text.rstrip())
+    r1 = re.compile(r" (https?://[^ ]+(\.png|\.jpg|\.gif))")
+    q.question_text = r1.sub(r' <img src="\1">', q.question_text)
+    r2 = re.compile(r"(^https?://[^ ]+(\.png|\.jpg|\.gif))")
+    q.question_text = r2.sub(r'<img src="\1">', q.question_text)
+    r3 = re.compile(r" (https?://[^ ]+)")
+    q.question_text = r3.sub(r' <a href=" \1">\1</a>', q.question_text)
+    r4 = re.compile(r"(^https?://[^ ]+)")
+    q.question_text = r4.sub(r'<a href="\1">\1</a>', q.question_text)
     return render_to_response('finalproject/view_question.html', {
         'question': q,
         'answers': a,
