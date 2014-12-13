@@ -16,12 +16,28 @@
       <p>Questions in the system:</p>
     {% endif %}
     <ul>
-    {% for question in questions %}
+
+    {% for question in question_pages %}
       <li><a href="/questions/{{ question.key.id }}">{{ question.key.id }}</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       {% if context.user.email == question.created_by.email %}
         [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
       {% endif %}
     {% endfor %}
+    <div class="pagination">
+      <br/>
+      <span class="step-links">
+      {% if question_pages.has_previous %}
+        <a href="?page={{ question_pages.previous_page_number }}">previous</a>
+      {% endif %}
+        <span class="current">
+          Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}.
+        </span>
+      {% if question_pages.has_next %}
+        <a href="?page={{ question_pages.next_page_number }}">next</a>
+      {% endif %}
+      </span>
+    </div>
+
     </ul>
     <p>[<a href="/questions/add_question">add question</a>]</p>
     <p>Tags:</p>
