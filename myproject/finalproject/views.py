@@ -11,6 +11,10 @@ from myproject.finalproject import models
 import datetime
 import time
 #import urllib
+import re
+#import html
+#import urllib
+#import cgi
 from google.appengine.api import users
 
 def home(request):
@@ -206,6 +210,10 @@ def view_question(request, question_id=None):
     a = db.Query(models.Answers)
     a.filter('question', q)
     count = a.count()
+    regex_tmp = re.search('(https://.*)', q.question_text.rstrip())
+    regex_tmp1 = regex_tmp.group()
+    #q.question_text = re.sub('https://.*','<a href="https://google.com">Google</a>', q.question_text.rstrip())
+    q.question_text = re.sub(regex_tmp1, '<a href="regex_tmp1">Google</a>', q.question_text.rstrip())
     return render_to_response('finalproject/view_question.html', {
         'question': q,
         'answers': a,

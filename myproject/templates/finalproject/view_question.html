@@ -12,7 +12,7 @@
     <p>Welcome to the question answer forum!</p>
     <p>Question:</p>
     <ul>
-      <li>{{ question.key.id }}, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.question_text }}
+      <li>{{ question.key.id }}, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.question_text|safe }}
       {% if question.total_votes == 0 %}
         [{{ question.total_votes }}]
       {% elif question.total_votes > 0 %}
@@ -31,7 +31,7 @@
     {% endif %}
     {% for answer in answers %}
     <ul>
-      <li>{{ answer.key.id }}, {{ answer.created_by.email }}, {{ answer.date_created }}, {{ answer.date_modified }}, {{ answer.answer_text }}
+      <li>{{ answer.key.id }}, {{ answer.created_by.email }}, {{ answer.date_created }}, {{ answer.date_modified }}, {{ answer.answer_text|safe }}
       {% if answer.total_votes == 0 %}
         [{{ answer.total_votes }}]
       {% elif answer.total_votes > 0 %}
