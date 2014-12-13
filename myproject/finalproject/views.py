@@ -10,10 +10,12 @@ from myproject.finalproject import models
 
 import datetime
 import time
+#import urllib
 from google.appengine.api import users
 
 def home(request):
     q = models.Question.all().order('-date_modified')
+    q_gql = models.Question.gql("WHERE question_tags = 'First'")
     count = q.count()
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
@@ -26,13 +28,26 @@ def home(request):
         'logout_url': logout_url,
     }
 
-    time.sleep(0.1)
-    q = models.Question.all().order('-date_modified')
-    count = q.count()
+    #time.sleep(0.1)
+    #q = models.Question.all().order('-date_modified')
+    #count = q.count()
+    q_tags = []
+    #for i in models.Question.all():
+        #q_tags.append(i.question_tags)
+        #q_tags = set(q_tags)
+        #q_tags = list(q_tags)
+    for i in q_gql:
+        for j in i.question_tags:
+            #j.decode('utf8')
+            q_tags.append(j)
+    q_tags = set(q_tags)
+    q_tags = list(q_tags)
+
     return render_to_response('finalproject/index.html', {
         'questions': q,
         'count': count,
         'context': context,
+        'tags': q_tags,
     }, template.RequestContext(request))
 
 class QuestionForm(djangoforms.ModelForm):
@@ -66,6 +81,7 @@ def add_question_login_form(request):
                 question.date_modified = current_time
                 if question_tmp.question_tag:
                     tags_list = question_tmp.question_tag.rstrip().split("\r\n")
+                    #tags_list = urllib.quote_plus(tags_list)
                     question.question_tag = question_tmp.question_tag
                     tags_list = set(tags_list)
                     tags_list = list(tags_list)

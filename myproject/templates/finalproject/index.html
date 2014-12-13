@@ -22,5 +22,10 @@
     {% endfor %}
     </ul>
     <p>[<a href="/questions/add_question">add question</a>]</p>
+    <p>Tags:</p>
+    <ul>
+    {% for tag in tags %}
+      <li>{{ tag }}</li>
+    {% endfor %}
   </body>
 </html>
