@@ -210,7 +210,7 @@ def view_question(request, question_id=None):
     a = db.Query(models.Answers)
     a.filter('question', q)
     count = a.count()
-    r1 = re.compile(r"(https?://[^ ]+(\.png|\.jpg|\.gif))")
+    r1 = re.compile(r"(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
     #r2 = re.compile(r"(^https?://[^ ]+(\.png|\.jpg|\.gif))")
     #q.question_text = r2.sub(r'<img src="\1">', q.question_text)
@@ -218,7 +218,7 @@ def view_question(request, question_id=None):
     #q.question_text = r3.sub(r' <a href=" \1">\1</a>', q.question_text)
     #r4 = re.compile(r"(^https?://[^ ]+)")
     #q.question_text = r4.sub(r'<a href="\1">\1</a>', q.question_text)
-    r2 = re.compile(r"(?<!\")(https?://[^ ]+)")
+    r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
     return render_to_response('finalproject/view_question.html', {
         'question': q,
@@ -258,6 +258,10 @@ def add_answer_login_form(request, question_id=None):
                 answer.date_created = answer.date_created + datetime.timedelta(hours=-5)
                 answer.date_modified = current_time
                 answer.question = q
+                r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+                answer.answer_text = r1.sub(r'<img src="\1" >', answer.answer_text)
+                r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+                answer.answer_text = r2.sub(r'<a href="\1">\1</a>', answer.answer_text)
                 answer.put()
                 return HttpResponseRedirect('/questions/%d' % int(question_id))
 
@@ -320,6 +324,10 @@ def edit_answer_login_form(request, answer_id=None):
                 #question.short_question = question.question_text[:500]
                 answer.date_created = answer.date_created + datetime.timedelta(hours=-5)
                 answer.date_modified = current_time
+                r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+                answer.answer_text = r1.sub(r'<img src="\1" >', answer.answer_text)
+                r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+                answer.answer_text = r2.sub(r'<a href="\1">\1</a>', answer.answer_text)
                 answer.put()
                 return HttpResponseRedirect('/questions/%d' % answer.question.key().id())
             # else fall through to redisplay the form with error messages
