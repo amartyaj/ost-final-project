@@ -12,8 +12,8 @@ import datetime
 import time
 #import urllib
 import re
+#import string
 #import html
-#import urllib
 #import cgi
 from google.appengine.api import users
 
@@ -176,6 +176,13 @@ def add_question_login_form(request):
                 question.date_modified = current_time
                 if question_tmp.question_tag:
                     tags_list = question_tmp.question_tag.rstrip().split("\r\n")
+                    #for tag in tags_list:
+                        #tag = urllib.unquote_plus(tag).decode('utf8')
+                        #tag = tag.strip()
+                        #tag = tag.replace(" ", "")
+                        #tag = tag.replace("\t", "")
+                        #"".join(tag.split())
+                        #tag.strip(string.whitespace)
                     #tags_list = urllib.quote_plus(tags_list)
                     question.question_tag = question_tmp.question_tag
                     tags_list = set(tags_list)
@@ -781,6 +788,43 @@ def answer_vote_down_login_form(request, answer_id=None):
             'question': q,
             'answers': a,
             'count': count,
+            'context': context,
+        }, template.RequestContext(request))
+
+class ImageForm(djangoforms.ModelForm):
+    class Meta:
+        model = models.Images
+
+def upload_image(request):
+    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
+    user = users.get_current_user()
+    login_url = users.create_login_url(request.path)
+    logout_url = users.create_logout_url(request.path)
+    context = {
+        'current_time': current_time,
+        'user': user,
+        'login_url': login_url,
+        'logout_url': logout_url,
+    }
+    form = ImageForm(request.POST, request.FILES)
+    if user:
+        images = form.save(commit=False)
+        img = request.FILES['image'].read()
+        images.image = db.Blob(img)
+        images.date_uploaded = current_time
+        images.put()
+        return HttpResponseRedirect('/questions')
+            # else fall through to redisplay the form with error messages
+
+        time.sleep(0.1)
+        q = models.Question.all().order('-date_modified')
+        count = q.count()
+        return render_to_response('finalproject/index.html', {
+            'context': context,
+        }, template.RequestContext(request))
+
+    else:
+        return render_to_response('finalproject/image_login_form.html', {
             'context': context,
         }, template.RequestContext(request))
 

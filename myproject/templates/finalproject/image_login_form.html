@@ -10,15 +10,18 @@
     </p>
   {% else %}
     <p>
-      Hello!
-      (You can <a href="{{ context.login_url }}">sign in</a> here)
+      {% if context.login_url %}
+        <a href="{{ context.login_url }}">Sign in or register</a> to access this feature.
+      {% else %}
+        <a href="{{ login_url }}">Sign in or register</a> to access this feature.
+      {% endif %}
     </p>
   {% endif %}
     <p>Welcome to the question answer forum!</p>
     {% if not count %}
       <p>There are currently no questions in the system.</p>
     {% else %}
-      <p><b><u>Questions for the tag "{{ tag }}":</u></b></p>
+      <p><b><u>Questions:</u></b></p>
     {% endif %}
 
     <ul>
@@ -47,5 +50,30 @@
       </span>
     </div>
     </ul>
+
+    <p>[<a href="/questions/add_question">add question</a>]</p>
+    <p><b><u>Tags:</u></b></p>
+    {% if not tags %}
+      <p>There are currently no tags in the system.</p>
+    {% endif %}
+    <ul>
+    {% for tag in tags %}
+        {% if tag != "" or tag != " " %}
+          <li><a href="/questions/tag_questions/{{ tag }}">{{ tag }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <p><b><u>Images:</u></b></p>
+    <ul>
+    {% for image in images %}
+      <li><a href="/questions/retrieve_image/{{ image.key.id }}">{{ tag }}</a></li>
+    {% endfor %}
+    </ul>
+    <form action="/questions/upload_image" enctype="multipart/form-data" method="POST">
+      <input type="file" name="image" accept="image/*">
+      {% csrf_token %}
+      <input type="submit" value="Upload Image">
+    </form>
   </body>
 </html>

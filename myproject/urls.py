@@ -28,6 +28,6 @@ urlpatterns = patterns('myproject',
     url(r'^questions/answer_vote_down/(\d+)$', 'finalproject.views.answer_vote_down_login_form'),
     url(r'^questions/tag_questions/(\w+)$', 'finalproject.views.tag_questions'),
     url(r'^questions/rss_feed/(\d+)$', 'finalproject.views.rss_feed'),
-    url(r'^questions/upload_image/(\w+)$', 'finalproject.views.upload_image'),
+    url(r'^questions/upload_image$', 'finalproject.views.upload_image'),
     url(r'^questions/retrieve_image$', 'finalproject.views.retrieve_image'),
 )

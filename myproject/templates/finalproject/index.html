@@ -38,7 +38,7 @@
       {% if question_pages %}
         <br/>
         <span class="current">
-          Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}.
+          Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}
         </span>
       {% endif %}
       {% if question_pages.has_next %}
@@ -67,8 +67,10 @@
       <li><a href="/questions/retrieve_image/{{ image.key.id }}">{{ tag }}</a></li>
     {% endfor %}
     </ul>
-    <form action="/questions/upload_image">
-      <input type="file" name="image" accept="image/*">
+    <form enctype="multipart/form-data" action="/questions/upload_image" method="POST">
+      <input type="file" name="image" required="True">
+      {% csrf_token %}
+      {{ form.as_p }}
       <input type="submit" value="Upload Image">
     </form>
   </body>
