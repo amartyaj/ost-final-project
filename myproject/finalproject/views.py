@@ -182,7 +182,7 @@ def add_question_login_form(request):
                 if question_tmp.question_tag:
                     tags_list = question_tmp.question_tag.rstrip().split("\r\n")
                     #for tag in tags_list:
-                        #tag = urllib.unquote_plus(tag).decode('utf8')
+                        #tag = urllib.quote_plus(tag)
                         #tag = tag.strip()
                         #tag = tag.replace(" ", "")
                         #tag = tag.replace("\t", "")
