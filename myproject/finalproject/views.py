@@ -839,7 +839,16 @@ def retrieve_image(request, image_id=None):
     images = models.Images
     image_instance = images.get_by_id(int(image_id))
     image = image_instance.image
-    return HttpResponse(image, content_type="image")
+    image_name = image_instance.name
+    if (re.findall("\.png$", image_name)):
+        return HttpResponse(image, mimetype="image/png")
+    if (re.findall("\.gif$", image_name)):
+        return HttpResponse(image, mimetype="image/gif")
+    if (re.findall("\.jpg$", image_name)):
+        return HttpResponse(image, mimetype="image/jpg")
+    if (re.findall("\.jpeg$", image_name)):
+        return HttpResponse(image, mimetype="image/jpeg")
+
     #return render_to_response('finalproject/retrieve_image.html', {
         #'context': context,
         #'image_instance': image_instance,
