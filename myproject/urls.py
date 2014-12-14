@@ -29,5 +29,5 @@ urlpatterns = patterns('myproject',
     url(r'^questions/tag_questions/(\w+)$', 'finalproject.views.tag_questions'),
     url(r'^questions/rss_feed/(\d+)$', 'finalproject.views.rss_feed'),
     url(r'^questions/upload_image$', 'finalproject.views.upload_image'),
-    url(r'^questions/retrieve_image$', 'finalproject.views.retrieve_image'),
+    url(r'^questions/retrieve_image/(\d+)$', 'finalproject.views.retrieve_image'),
 )

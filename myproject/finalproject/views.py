@@ -2,6 +2,7 @@
 #from django import http
 from django import template
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -15,6 +16,7 @@ import re
 #import string
 #import html
 #import cgi
+#import httplib
 from google.appengine.api import users
 
 def home(request):
@@ -60,12 +62,15 @@ def home(request):
     q_tags = set(q_tags)
     q_tags = list(q_tags)
 
+    images = models.Images.all().order('-date_uploaded')
+
     return render_to_response('finalproject/index.html', {
         'questions': q,
         'question_pages': question_pages,
         'count': count,
         'context': context,
         'tags': q_tags,
+        'images': images,
     }, template.RequestContext(request))
 
 def tag_questions(request, tag=None):
@@ -181,7 +186,7 @@ def add_question_login_form(request):
                         #tag = tag.strip()
                         #tag = tag.replace(" ", "")
                         #tag = tag.replace("\t", "")
-                        #"".join(tag.split())
+                        #"".join(tag.split(string.whitespace))
                         #tag.strip(string.whitespace)
                     #tags_list = urllib.quote_plus(tags_list)
                     question.question_tag = question_tmp.question_tag
@@ -827,4 +832,15 @@ def upload_image(request):
         return render_to_response('finalproject/image_login_form.html', {
             'context': context,
         }, template.RequestContext(request))
+
+def retrieve_image(request, image_id=None):
+    images = models.Images
+    image_instance = images.get_by_id(int(image_id))
+    image = image_instance.image
+    return HttpResponse(image, mimetype="image/png")
+    #return render_to_response('finalproject/retrieve_image.html', {
+        #'context': context,
+        #'image_instance': image_instance,
+        #'image': image,
+        #}, template.RequestContext(request))
 
