@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+  <title>OST Final Project Question</title>
+  <link>http://myapp-nn899.appspot.com/questions/{{ question.key.id }}</link>
+  <description>{{ question.question_text }}</description>
+  <category>Computer Science</category>
+  <language>en-us</language>
+  <managingEditor>{{ question.created_by.email }}</managingEditor>
+  <pubDate>{{ question.date_created }}</pubDate>
+  
+  {% for answer in answers %}
+  <item>
+    <title>Answer ID {{ answer.key.id }}</title>
+    <link>http://myapp-nn899.appspot.com/questions/{{ question.key.id }}</link>
+    <description>{{ answer.answer_text }}</description>
+    <author>{{ answer.created_by.email }}</author>
+    <pubDate>{{ answer.pubDate }}</pubDate>
+  </item>
+  {% endfor %}
+</channel>
+
+</rss>

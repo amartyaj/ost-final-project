@@ -23,9 +23,11 @@
 
     <ul>
     {% for question in question_pages %}
-      <li><a href="/questions/{{ question.key.id }}">{{ question.key.id }}</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
+      <li><a href="/questions/{{ question.key.id }}">Permalink</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       {% if context.user.email == question.created_by.email %}
-        [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
+        [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>] [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>]</li>
+      {% else %}
+        [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>]</li>
       {% endif %}
     {% endfor %}
     <div class="pagination">
