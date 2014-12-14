@@ -23,7 +23,7 @@
 
     <ul>
     {% for question in question_pages %}
-      <li><a href="/questions/{{ question.key.id }}">Permalink</a>, {{ question.created_by.email }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
+      <li><a href="/questions/{{ question.key.id }}">Permalink</a>, {{ question.created_by }}, {{ question.date_created }}, {{ question.date_modified }}, {{ question.short_question }}
       {% if context.user.email == question.created_by.email %}
         [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>] [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>]</li>
       {% else %}
@@ -64,7 +64,7 @@
     <p><b><u>Images:</u></b></p>
     <ul>
     {% for image in images %}
-      <li><a href="/questions/retrieve_image/{{ image.key.id }}">{{ image.key.id }}</a></li>
+      <li><a href="/questions/retrieve_image/{{ image.key.id }}">{{ image.name }}</a></li>
     {% endfor %}
     </ul>
     <form enctype="multipart/form-data" action="/questions/upload_image" method="POST">

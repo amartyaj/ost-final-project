@@ -46,3 +46,4 @@ class Images(db.Model):
     uploaded_by = db.UserProperty(auto_current_user_add=True)
     date_uploaded = db.DateTimeProperty(auto_now_add=True)
     image = db.BlobProperty(default=None)
+    name = db.StringProperty(default=None)

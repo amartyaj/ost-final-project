@@ -814,9 +814,11 @@ def upload_image(request):
     form = ImageForm(request.POST, request.FILES)
     if user:
         images = form.save(commit=False)
+        img_name = request.FILES['image'].name
         img = request.FILES['image'].read()
         images.image = db.Blob(img)
         images.date_uploaded = current_time
+        images.name = img_name
         images.put()
         return HttpResponseRedirect('/questions')
             # else fall through to redisplay the form with error messages
@@ -837,7 +839,7 @@ def retrieve_image(request, image_id=None):
     images = models.Images
     image_instance = images.get_by_id(int(image_id))
     image = image_instance.image
-    return HttpResponse(image, mimetype="image/png")
+    return HttpResponse(image, content_type="image")
     #return render_to_response('finalproject/retrieve_image.html', {
         #'context': context,
         #'image_instance': image_instance,
