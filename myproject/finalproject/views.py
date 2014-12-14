@@ -44,9 +44,9 @@ def home(request):
         'logout_url': logout_url,
     }
 
-    #time.sleep(0.1)
-    #q = models.Question.all().order('-date_modified')
-    #count = q.count()
+    time.sleep(0.1)
+    q = models.Question.all().order('-date_modified')
+    count = q.count()
     q_tags = []
     for i in models.Question.all():
         for j in i.question_tags:

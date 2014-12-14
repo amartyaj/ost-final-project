@@ -18,7 +18,7 @@
     {% if not count %}
       <p>There are currently no questions in the system.</p>
     {% else %}
-      <p>Questions in the system:</p>
+      <p><b><u>Questions:</u></b></p>
     {% endif %}
 
     <ul>
@@ -31,14 +31,16 @@
       {% endif %}
     {% endfor %}
     <div class="pagination">
-      <br/>
       <span class="step-links">
       {% if question_pages.has_previous %}
         <a href="?page={{ question_pages.previous_page_number }}">previous</a>
       {% endif %}
+      {% if question_pages %}
+        <br/>
         <span class="current">
           Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}.
         </span>
+      {% endif %}
       {% if question_pages.has_next %}
         <a href="?page={{ question_pages.next_page_number }}">next</a>
       {% endif %}
@@ -47,7 +49,10 @@
     </ul>
 
     <p>[<a href="/questions/add_question">add question</a>]</p>
-    <p>Tags:</p>
+    <p><b><u>Tags:</u></b></p>
+    {% if not tags %}
+      <p>There are currently no tags in the system.</p>
+    {% endif %}
     <ul>
     {% for tag in tags %}
         {% if tag != "" or tag != " " %}
@@ -55,5 +60,16 @@
         {% endif %}
     {% endfor %}
     </ul>
+
+    <p><b><u>Images:</u></b></p>
+    <ul>
+    {% for image in images %}
+      <li><a href="/questions/retrieve_image/{{ image.key.id }}">{{ tag }}</a></li>
+    {% endfor %}
+    </ul>
+    <form action="/questions/upload_image">
+      <input type="file" name="image" accept="image/*">
+      <input type="submit" value="Upload Image">
+    </form>
   </body>
 </html>

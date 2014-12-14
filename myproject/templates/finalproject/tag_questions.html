@@ -18,7 +18,7 @@
     {% if not count %}
       <p>There are currently no questions in the system.</p>
     {% else %}
-      <p>Questions for the tag {{ tag }}: </p>
+      <p><b><u>Questions for the tag "{{ tag }}":</u></b></p>
     {% endif %}
 
     <ul>
@@ -36,9 +36,12 @@
       {% if question_pages.has_previous %}
         <a href="?page={{ question_pages.previous_page_number }}">previous</a>
       {% endif %}
+      {% if question_pages %}
+        <br/>
         <span class="current">
           Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}.
         </span>
+      {% endif %}
       {% if question_pages.has_next %}
         <a href="?page={{ question_pages.next_page_number }}">next</a>
       {% endif %}
