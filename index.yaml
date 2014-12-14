@@ -28,6 +28,12 @@ indexes:
   - name: total_votes
     direction: desc
 
+- kind: Question
+  properties:
+  - name: question_tags
+  - name: date_modified
+    direction: desc
+
 - kind: QuestionVotes
   properties:
   - name: answer
