@@ -845,7 +845,37 @@ def upload_image(request):
         'login_url': login_url,
         'logout_url': logout_url,
     }
+
     form = ImageForm(request.POST, request.FILES)
+    q = models.Question.all().order('-date_modified')
+    count = q.count()
+
+    paginator = Paginator(q, 10)
+    page = request.GET.get('page')
+    try:
+        question_pages = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        question_pages = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        question_pages = paginator.page(paginator.num_pages)
+
+    q_tags = []
+    for i in models.Question.all():
+        for j in i.question_tags:
+            q_tags.append(j)
+        #q_tags = set(q_tags)
+        #q_tags = list(q_tags)
+    #for i in q_gql:
+        #for j in i.question_tags:
+            #j.decode('utf8')
+            #q_tags.append(j)
+    q_tags = set(q_tags)
+    q_tags = list(q_tags)
+    images = models.Images.all().order('-date_uploaded')
+    image_count = images.count()
+
     if user:
         images = form.save(commit=False)
         img_name = request.FILES['image'].name
@@ -862,11 +892,23 @@ def upload_image(request):
         count = q.count()
         return render_to_response('finalproject/index.html', {
             'context': context,
+            'question_pages': question_pages,
+            'questions': q,
+            'count': count,
+            'tags': q_tags,
+            'images': images,
+            'image_count': image_count,
         }, template.RequestContext(request))
 
     else:
         return render_to_response('finalproject/image_login_form.html', {
             'context': context,
+            'question_pages': question_pages,
+            'questions': q,
+            'count': count,
+            'tags': q_tags,
+            'images': images,
+            'image_count': image_count,
         }, template.RequestContext(request))
 
 def retrieve_image(request, image_id=None):
