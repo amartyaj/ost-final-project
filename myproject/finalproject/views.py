@@ -63,6 +63,7 @@ def home(request):
     q_tags = list(q_tags)
 
     images = models.Images.all().order('-date_uploaded')
+    image_count = images.count()
 
     return render_to_response('finalproject/index.html', {
         'questions': q,
@@ -71,6 +72,7 @@ def home(request):
         'context': context,
         'tags': q_tags,
         'images': images,
+        'image_count': image_count,
     }, template.RequestContext(request))
 
 def tag_questions(request, tag=None):
@@ -158,6 +160,18 @@ class QuestionForm(djangoforms.ModelForm):
 def add_question_login_form(request):
     q = models.Question.all().order('-date_modified')
     count = q.count()
+
+    paginator = Paginator(q, 10)
+    page = request.GET.get('page')
+    try:
+        question_pages = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        question_pages = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        question_pages = paginator.page(paginator.num_pages)
+
     current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
     user = users.get_current_user()
     login_url = users.create_login_url(request.path)
@@ -212,10 +226,30 @@ def add_question_login_form(request):
         }, template.RequestContext(request))
 
     else:
+        q_tags = []
+        for i in models.Question.all():
+            for j in i.question_tags:
+                q_tags.append(j)
+            #q_tags = set(q_tags)
+            #q_tags = list(q_tags)
+        #for i in q_gql:
+            #for j in i.question_tags:
+                #j.decode('utf8')
+                #q_tags.append(j)
+        q_tags = set(q_tags)
+        q_tags = list(q_tags)
+
+        images = models.Images.all().order('-date_uploaded')
+        image_count = images.count()
+
         return render_to_response('finalproject/question_login_form.html', {
             'context': context,
+            'question_pages': question_pages,
             'questions': q,
             'count': count,
+            'tags': q_tags,
+            'images': images,
+            'image_count': image_count,
         }, template.RequestContext(request))
 
 def edit_question_login_form(request, question_id=None):
