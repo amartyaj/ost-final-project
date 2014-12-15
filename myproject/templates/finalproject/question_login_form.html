@@ -23,7 +23,7 @@
       <p>There are currently no questions in the system.</p>
     {% endif %}
     <ul>
-    {% for question in questions %}
+    {% for question in question_pages %}
       <li>{{ question.short_question }}</li>
       <li><b>Author:</b> {{ question.created_by }}, <b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
       <li>[<a href="/questions/{{ question.key.id }}">Permalink</a>]
@@ -37,22 +37,21 @@
     <div class="pagination">
       <span class="step-links">
       {% if question_pages.has_previous %}
-        <a href="?page={{ question_pages.previous_page_number }}">previous</a>
+        <a href="?page={{ question_pages.previous_page_number }}">Previous</a>
       {% endif %}
       {% if question_pages %}
-        <br/>
         <span class="current">
-          Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}
+          [Page {{ question_pages.number }} of {{ question_pages.paginator.num_pages }}]
         </span>
       {% endif %}
       {% if question_pages.has_next %}
-        <a href="?page={{ question_pages.next_page_number }}">next</a>
+        <a href="?page={{ question_pages.next_page_number }}">Next</a>
       {% endif %}
       </span>
     </div>
     </ul>
 
-    <p>[<a href="/questions/add_question">add question</a>]</p>
+    <p>[<a href="/questions/add_question">Add question</a>]</p>
     <p><b><u>Tags:</u></b></p>
     {% if not tags %}
       <p>There are currently no tags in the system.</p>

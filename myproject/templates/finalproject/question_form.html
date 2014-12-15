@@ -10,10 +10,10 @@
     </p>
   {% endif %}
   {% if question_id %}
-    <p>Edit question {{ question_id }}:</p>
+    <p><b><u>Edit question:</u></b></p>
     <form action="/questions/edit_question/{{ question_id }}" method="POST">
   {% else %}
-    <p>Create question:</p>
+    <p><b><u>Add question:</u></b></p>
     <form action="/questions/add_question" method="POST">
   {% endif %}
       {% csrf_token %}
