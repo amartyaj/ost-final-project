@@ -1,17 +1,17 @@
 <html>
   <body>
     <p>
-      <a href="/questions">Home</a>
+      <a href="/questions"><b>Home</b></a>
     </p>
   {% if context.user.email %}
     <p>
       Hello {{ context.user.email }}!
-      (You can <a href="{{ context.logout_url }}">sign out</a> here)
+      (You can <a href="{{ context.logout_url }}"><b>sign out</b></a> here)
     </p>
   {% else %}
     <p>
       Hello!
-      (You can <a href="{{ context.login_url }}">sign in</a> here)
+      (You can <a href="{{ context.login_url }}"><b>sign in</b></a> here)
     </p>
   {% endif %}
     <p>Welcome to the question answer forum!</p>
