@@ -9,6 +9,7 @@
     <h1>
       <a href="/questions">Home</a>
     </h1>
+  <div id="greeting">
   {% if context.user.email %}
     <h3>
       Hello {{ context.user.email }}!
@@ -24,10 +25,12 @@
     </h3>
   {% endif %}
     <h3>Welcome to the Open Source Tools discussion forum!</h3>
+    </div>
     <h2><u>Question:</u></h2>
     <ul>
       <li>{{ question.question_text|safe }}</li>
-      <li><b>Author:</b> {{ question.created_by }}, <b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
+      <li><b>Author:</b> {{ question.created_by }}</li>
+      <li><b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
       <li>
       {% if question.total_votes == 0 %}
         [<b>Votes: </b>{{ question.total_votes }}]
@@ -43,12 +46,12 @@
     <h2><u>Answers:</u></h2>
     {% if not count %}
       <h3>There are currently no answers for this question.</h3>
-    {% else %}
     {% endif %}
-    {% for answer in answers %}
     <ul>
+    {% for answer in answers %}
       <li>{{ answer.answer_text|safe }}</li>
-      <li><b>Author:</b> {{ answer.created_by }}, <b>Created:</b> {{ answer.date_created }}, <b>Modified:</b> {{ answer.date_modified }}</li>
+      <li><b>Author:</b> {{ answer.created_by }}</li>
+      <li><b>Created:</b> {{ answer.date_created }}, <b>Modified:</b> {{ answer.date_modified }}</li>
       <li>
       {% if answer.total_votes == 0 %}
         [<b>Votes: </b>{{ answer.total_votes }}]
@@ -60,11 +63,13 @@
         [<a href="/questions/answer_vote_up/{{ answer.key.id }}">Up</a>]
         [<a href="/questions/answer_vote_down/{{ answer.key.id }}">Down</a>]
         {% if context.user.email == answer.created_by.email %}
-          [<a href="/questions/edit_answer/{{ answer.key.id }}">Edit</a>]</li>
+          [<a href="/questions/edit_answer/{{ answer.key.id }}">Edit</a>]
         {% endif %}
       </li>
-    </ul>
+      <hr>
+      <br/>
     {% endfor %}
+    </ul>
     <h3>[<a href="/questions/add_answer/{{ question.key.id }}">Add answer</a>]</h3>
   </div>
   </body>

@@ -14,9 +14,9 @@
     <h3>
       Hello {{ context.user.email }}!
       (You can <a href="{{ context.logout_url }}">sign out</a> here)
-    </h3 id="register">
+    </h3>
   {% else %}
-    <h3>
+    <h3 id="register">
       {% if context.login_url %}
         <div id="register">**<a href="{{ context.login_url }}">Sign in or register</a>** to access this feature.</div>
       {% else %}
@@ -33,13 +33,15 @@
     <ul>
     {% for question in question_pages %}
       <li>{{ question.short_question }}</li>
-      <li><b>Author:</b> {{ question.created_by }}, <b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
+      <li><b>Author:</b> {{ question.created_by }}</li>
+      <li><b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
       <li>[<a href="/questions/{{ question.key.id }}">Permalink</a>]
       {% if context.user.email == question.created_by.email %}
         [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>] [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
       {% else %}
         [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>]</li>
       {% endif %}
+      <hr>
       <br/>
     {% endfor %}
     <div class="pagination">
