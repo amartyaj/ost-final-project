@@ -24,9 +24,9 @@
     </h3>
   {% endif %}
     <h3>Welcome to the Open Source Tools discussion forum!</h3>
-    <p><b><u>Questions:</u></b></p>
+    <h2><u>Questions:</u></h2>
     {% if not count %}
-      <p>There are currently no questions in the system.</p>
+      <h3>There are currently no questions in the system.</h3>
     {% endif %}
     <ul>
     {% for question in question_pages %}
@@ -57,10 +57,10 @@
     </div>
     </ul>
 
-    <p>[<a href="/questions/add_question">Add question</a>]</p>
-    <p><b><u>Tags:</u></b></p>
+    <h3>[<a href="/questions/add_question">Add question</a>]</h3>
+    <h2><u>Tags:</u></h2>
     {% if not tags %}
-      <p>There are currently no tags in the system.</p>
+      <h3>There are currently no tags in the system.</h3>
     {% endif %}
     <ul>
     {% for tag in tags %}
@@ -70,9 +70,9 @@
     {% endfor %}
     </ul>
 
-    <p><b><u>Images:</u></b></p>
+    <h2><u>Images:</u></h2>
     {% if not image_count %}
-      <p>There are currently no images in the system.</p>
+      <h3>There are currently no images in the system.</h3>
     {% endif %}
     <ul>
     {% for image in images %}

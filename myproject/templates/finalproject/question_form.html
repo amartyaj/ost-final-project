@@ -17,10 +17,10 @@
   {% endif %}
   <h3>Welcome to the Open Source Tools discussion forum!</h3>
   {% if question_id %}
-    <p><b><u>Edit question:</u></b></p>
+    <h2><u>Edit question:</u></h2>
     <form action="/questions/edit_question/{{ question_id }}" method="POST">
   {% else %}
-    <p><b><u>Add question:</u></b></p>
+    <h2><u>Add question:</u></h2>
     <form action="/questions/add_question" method="POST">
   {% endif %}
       {% csrf_token %}

@@ -21,7 +21,7 @@
     </h3>
   {% endif %}
     <h3>Welcome to the Open Source Tools discussion forum!</h3>
-    <p><b><u>Question:</u></b></p>
+    <h2><u>Question:</u></h2>
     <ul>
       <li>{{ question.question_text|safe }}</li>
       <li><b>Author:</b> {{ question.created_by }}, <b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
@@ -37,9 +37,9 @@
         [<a href="/questions/question_vote_down/{{ question.key.id }}">Down</a>]
       </li>
     </ul>
-    <p><b><u>Answers:</u></b></p>
+    <h2><u>Answers:</u></h2>
     {% if not count %}
-      <p>There are currently no answers for this question.</p>
+      <h3>There are currently no answers for this question.</h3>
     {% else %}
     {% endif %}
     {% for answer in answers %}
@@ -62,7 +62,7 @@
       </li>
     </ul>
     {% endfor %}
-    <p>[<a href="/questions/add_answer/{{ question.key.id }}">Add answer</a>]</p>
+    <h3>[<a href="/questions/add_answer/{{ question.key.id }}">Add answer</a>]</h3>
   </div>
   </body>
 </html>
