@@ -9,6 +9,7 @@
       (You can <a href="{{ context.logout_url }}"><b>sign out</b></a> here)
     </p>
   {% endif %}
+  <p>Welcome to the Open Source Tools discussion forum!</p>
   {% if question_id %}
     <p><b><u>Edit question:</u></b></p>
     <form action="/questions/edit_question/{{ question_id }}" method="POST">

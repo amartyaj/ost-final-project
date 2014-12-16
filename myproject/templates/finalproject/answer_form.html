@@ -9,11 +9,12 @@
       (You can <a href="{{ context.logout_url }}"><b>sign out</b></a> here)
     </p>
   {% endif %}
+  <p>Welcome to the Open Source Tools discussion forum!</p>
   {% if answer_id %}
-    <p>Edit answer {{ answer_id }}:</p>
+    <p><b><u>Edit answer:</u></b></p>
     <form action="/questions/edit_answer/{{ answer_id }}" method="POST">
   {% else %}
-    <p>Create answer:</p>
+    <p><b><u>Add answer:</u></b></p>
     <form action="/questions/add_answer/{{ question.key.id }}" method="POST">
   {% endif %}
       {% csrf_token %}
