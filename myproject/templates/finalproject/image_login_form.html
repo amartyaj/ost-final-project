@@ -10,20 +10,20 @@
       <a href="/questions">Home</a>
     </h1>
   {% if context.user.email %}
-    <p>
+    <h3>
       Hello {{ context.user.email }}!
-      (You can <a href="{{ context.logout_url }}"><b>sign out</b></a> here)
-    </p>
+      (You can <a href="{{ context.logout_url }}">sign out</a> here)
+    </h3>
   {% else %}
-    <p>
+    <h3>
       {% if context.login_url %}
-        <a href="{{ context.login_url }}"><b>Sign in or register</b></a> to access this feature.
+        <a href="{{ context.login_url }}">Sign in or register</a> to access this feature.
       {% else %}
-        <a href="{{ login_url }}"><b>Sign in or register</b></a> to access this feature.
+        <a href="{{ login_url }}">Sign in or register</a> to access this feature.
       {% endif %}
-    </p>
+    </h3>
   {% endif %}
-    <p>Welcome to the Open Source Tools discussion forum!</p>
+    <h3>Welcome to the Open Source Tools discussion forum!</h3>
     <p><b><u>Questions:</u></b></p>
     {% if not count %}
       <p>There are currently no questions in the system.</p>

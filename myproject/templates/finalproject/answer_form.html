@@ -10,12 +10,12 @@
       <a href="/questions">Home</a>
     </h1>
   {% if context.user.email %}
-    <p>
+    <h3>
       Hello {{ context.user.email }}!
-      (You can <a href="{{ context.logout_url }}"><b>sign out</b></a> here)
-    </p>
+      (You can <a href="{{ context.logout_url }}">sign out</a> here)
+    </h3>
   {% endif %}
-  <p>Welcome to the Open Source Tools discussion forum!</p>
+  <h3>Welcome to the Open Source Tools discussion forum!</h3>
   {% if answer_id %}
     <p><b><u>Edit answer:</u></b></p>
     <form action="/questions/edit_answer/{{ answer_id }}" method="POST">
