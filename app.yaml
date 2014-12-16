@@ -11,6 +11,8 @@ handlers:
   script: main.application
 - url: /questions/.*
   script: main.application
+- url: /stylesheets
+  static_dir: stylesheets
 
 libraries:
 - name: django
