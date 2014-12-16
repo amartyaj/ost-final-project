@@ -17,9 +17,9 @@
   {% else %}
     <h3>
       {% if context.login_url %}
-        <a href="{{ context.login_url }}">Sign in or register</a> to access this feature.
+        <div id="register">**<a href="{{ context.login_url }}">Sign in or register</a>** to access this feature.</div>
       {% else %}
-        <a href="{{ login_url }}">Sign in or register</a> to access this feature.
+        <div id="register">**<a href="{{ login_url }}">Sign in or register</a>** to access this feature.</div>
       {% endif %}
     </h3>
   {% endif %}
