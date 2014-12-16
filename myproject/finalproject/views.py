@@ -136,7 +136,7 @@ def rss_feed(request, question_id=None):
     a.order('-total_votes')
     count = a.count()
     r1 = re.compile(r"(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     #r2 = re.compile(r"(^https?://[^ ]+(\.png|\.jpg|\.gif))")
     #q.question_text = r2.sub(r'<img src="\1">', q.question_text)
     #r3 = re.compile(r" (https?://[^ ]+)")
@@ -348,7 +348,7 @@ def view_question(request, question_id=None):
     a.order('-total_votes')
     count = a.count()
     r1 = re.compile(r"(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     #r2 = re.compile(r"(^https?://[^ ]+(\.png|\.jpg|\.gif))")
     #q.question_text = r2.sub(r'<img src="\1">', q.question_text)
     #r3 = re.compile(r" (https?://[^ ]+)")
@@ -387,7 +387,7 @@ def add_answer_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
 
@@ -401,9 +401,9 @@ def add_answer_login_form(request, question_id=None):
                 answer.date_modified = current_time
                 answer.question = q
                 r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-                answer.answer_text = r1.sub(r'<img src="\1" >', answer.answer_text)
+                answer.answer_text = r1.sub(r'<img src="\1">', answer.answer_text)
                 r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-                answer.answer_text = r2.sub(r'<a href="\1">\1</a>', answer.answer_text)
+                answer.answer_text = r2.sub(r'<a href="\1">"\1"</a>', answer.answer_text)
                 answer.put()
                 return HttpResponseRedirect('/questions/%d' % int(question_id))
 
@@ -468,9 +468,9 @@ def edit_answer_login_form(request, answer_id=None):
                 answer.date_created = answer.date_created + datetime.timedelta(hours=-5)
                 answer.date_modified = current_time
                 r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-                answer.answer_text = r1.sub(r'<img src="\1" >', answer.answer_text)
+                answer.answer_text = r1.sub(r'<img src="\1">', answer.answer_text)
                 r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-                answer.answer_text = r2.sub(r'<a href="\1">\1</a>', answer.answer_text)
+                answer.answer_text = r2.sub(r'<a href="\1">"\1"</a>', answer.answer_text)
                 answer.put()
                 return HttpResponseRedirect('/questions/%d' % answer.question.key().id())
             # else fall through to redisplay the form with error messages
@@ -527,7 +527,7 @@ def question_vote_up_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
 
@@ -569,9 +569,9 @@ def question_vote_up_login_form(request, question_id=None):
                 tags_list = set(tags_list)
                 tags_list = list(tags_list)
                 q.question_tags = tags_list
-                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=question_tmp.short_question, question_text=question_tmp.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
             else:
-                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=question_tmp.short_question, question_text=question_tmp.question_text, total_votes=votes)
             q1.put()
 
         time.sleep(0.1)
@@ -581,6 +581,11 @@ def question_vote_up_login_form(request, question_id=None):
         a.filter('question', q)
         a.order('-total_votes')
         count = a.count()
+        r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+        q.question_text = r1.sub(r'<img src="\1">', q.question_text)
+        r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -614,7 +619,7 @@ def question_vote_down_login_form(request, question_id=None):
         'logout_url': logout_url,
     }
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
 
@@ -655,9 +660,9 @@ def question_vote_down_login_form(request, question_id=None):
                 tags_list = set(tags_list)
                 tags_list = list(tags_list)
                 q.question_tags = tags_list
-                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=question_tmp.short_question, question_text=question_tmp.question_text, question_tag=q.question_tag, question_tags=q.question_tags, total_votes=votes)
             else:
-                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=q.short_question, question_text=q.question_text, total_votes=votes)
+                q1 = models.Question(key=q.key(), created_by=q.created_by, date_created=q.date_created, modified_by=q.modified_by, date_modified=q.date_modified, short_question=question_tmp.short_question, question_text=question_tmp.question_text, total_votes=votes)
             q1.put()
 
         time.sleep(0.1)
@@ -667,6 +672,11 @@ def question_vote_down_login_form(request, question_id=None):
         a.filter('question', q)
         a.order('-total_votes')
         count = a.count()
+        r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+        q.question_text = r1.sub(r'<img src="\1">', q.question_text)
+        r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -706,7 +716,7 @@ def answer_vote_up_login_form(request, answer_id=None):
         'logout_url': logout_url,
     }
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
 
@@ -753,6 +763,11 @@ def answer_vote_up_login_form(request, answer_id=None):
         a.filter('question', q)
         a.order('-total_votes')
         count = a.count()
+        r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+        q.question_text = r1.sub(r'<img src="\1">', q.question_text)
+        r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
@@ -788,7 +803,7 @@ def answer_vote_down_login_form(request, answer_id=None):
         'logout_url': logout_url,
     }
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1" >', q.question_text)
+    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
     q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
 
@@ -835,6 +850,11 @@ def answer_vote_down_login_form(request, answer_id=None):
         a.filter('question', q)
         a.order('-total_votes')
         count = a.count()
+        r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
+        q.question_text = r1.sub(r'<img src="\1">', q.question_text)
+        r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
+        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+
         return render_to_response('finalproject/view_question.html', {
             'question': q,
             'answers': a,
