@@ -144,7 +144,7 @@ def rss_feed(request, question_id=None):
     #r4 = re.compile(r"(^https?://[^ ]+)")
     #q.question_text = r4.sub(r'<a href="\1">\1</a>', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
     return render_to_response('finalproject/rss_feed.rss', {
         'question': q,
         'answers': a,
@@ -356,7 +356,7 @@ def view_question(request, question_id=None):
     #r4 = re.compile(r"(^https?://[^ ]+)")
     #q.question_text = r4.sub(r'<a href="\1">\1</a>', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
     return render_to_response('finalproject/view_question.html', {
         'question': q,
         'answers': a,
@@ -389,7 +389,7 @@ def add_answer_login_form(request, question_id=None):
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
     if user:
         if request.method == 'POST':
@@ -529,7 +529,7 @@ def question_vote_up_login_form(request, question_id=None):
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
     if user:
         question_tmp = models.Question.get_by_id(int(question_id))
@@ -584,7 +584,7 @@ def question_vote_up_login_form(request, question_id=None):
         r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
         q.question_text = r1.sub(r'<img src="\1">', q.question_text)
         r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+        q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -621,7 +621,7 @@ def question_vote_down_login_form(request, question_id=None):
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
     if user:
         question_tmp = models.Question.get_by_id(int(question_id))
@@ -675,7 +675,7 @@ def question_vote_down_login_form(request, question_id=None):
         r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
         q.question_text = r1.sub(r'<img src="\1">', q.question_text)
         r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+        q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -718,7 +718,7 @@ def answer_vote_up_login_form(request, answer_id=None):
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
     if user:
         v = db.Query(models.AnswerVotes)
@@ -766,7 +766,7 @@ def answer_vote_up_login_form(request, answer_id=None):
         r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
         q.question_text = r1.sub(r'<img src="\1">', q.question_text)
         r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+        q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
         return render_to_response('finalproject/view_question.html', {
             'question': q,
@@ -805,7 +805,7 @@ def answer_vote_down_login_form(request, answer_id=None):
     r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
     q.question_text = r1.sub(r'<img src="\1">', q.question_text)
     r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
     if user:
         v = db.Query(models.AnswerVotes)
@@ -853,7 +853,7 @@ def answer_vote_down_login_form(request, answer_id=None):
         r1 = re.compile(r"(?<!\")(https?://[^\s]+(\.png|\.jpg|\.gif))")
         q.question_text = r1.sub(r'<img src="\1">', q.question_text)
         r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-        q.question_text = r2.sub(r'<a href="\1">\1</a>', q.question_text)
+        q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
 
         return render_to_response('finalproject/view_question.html', {
             'question': q,
