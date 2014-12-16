@@ -5,9 +5,10 @@
     <title>Nikita Final Project</title>
   </head>
   <body>
-    <p>
-      <a href="/questions"><b>Home</b></a>
-    </p>
+  <div id="main">
+    <h1>
+      <a href="/questions">Home</a>
+    </h1>
   {% if context.user.email %}
     <p>
       Hello {{ context.user.email }}!
@@ -65,5 +66,6 @@
     </ul>
     {% endfor %}
     <p>[<a href="/questions/add_answer/{{ question.key.id }}">Add answer</a>]</p>
+  </div>
   </body>
 </html>

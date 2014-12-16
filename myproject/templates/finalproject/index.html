@@ -5,9 +5,10 @@
     <title>Nikita Final Project</title>
   </head>
   <body>
-    <p>
-      <a href="/questions"><b>Home</b></a>
-    </p>
+  <div id="main">
+    <h1>
+      <a href="/questions">Home</a>
+    </h1>
   {% if context.user.email %}
     <p>
       Hello {{ context.user.email }}!
@@ -82,5 +83,6 @@
       {{ form.as_p }}
       <input type="submit" value="Upload Image">
     </form>
+  </div>
   </body>
 </html>
