@@ -37,9 +37,7 @@
       <li><b>Created:</b> {{ question.date_created }}, <b>Modified:</b> {{ question.date_modified }}</li>
       <li>[<a href="/questions/{{ question.key.id }}">Permalink</a>]
       {% if context.user.email == question.created_by.email %}
-        [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>] [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
-      {% else %}
-        [<a href="/questions/rss_feed/{{ question.key.id }}">RSS Link</a>]</li>
+        [<a href="/questions/edit_question/{{ question.key.id }}">Edit</a>]</li>
       {% endif %}
       <hr>
       <br/>

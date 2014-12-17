@@ -111,47 +111,6 @@ def tag_questions(request, tag=None):
         'tag': tag,
     }, template.RequestContext(request))
 
-def rss_feed(request, question_id=None):
-    q = models.Question
-    q = q.get_by_id(int(question_id))
-    a = db.Query(models.Answers)
-    a.filter('question', q)
-    count = a.count()
-    current_time = datetime.datetime.now() + datetime.timedelta(hours=-5)
-    user = users.get_current_user()
-    login_url = users.create_login_url(request.path)
-    logout_url = users.create_logout_url(request.path)
-    context = {
-        'current_time': current_time,
-        'user': user,
-        'login_url': login_url,
-        'logout_url': logout_url,
-    }
-
-    time.sleep(0.1)
-    q = models.Question
-    q = q.get_by_id(int(question_id))
-    a = db.Query(models.Answers)
-    a.filter('question', q)
-    a.order('-total_votes')
-    count = a.count()
-    r1 = re.compile(r"(https?://[^\s]+(\.png|\.jpg|\.gif))")
-    q.question_text = r1.sub(r'<img src="\1">', q.question_text)
-    #r2 = re.compile(r"(^https?://[^ ]+(\.png|\.jpg|\.gif))")
-    #q.question_text = r2.sub(r'<img src="\1">', q.question_text)
-    #r3 = re.compile(r" (https?://[^ ]+)")
-    #q.question_text = r3.sub(r' <a href=" \1">\1</a>', q.question_text)
-    #r4 = re.compile(r"(^https?://[^ ]+)")
-    #q.question_text = r4.sub(r'<a href="\1">\1</a>', q.question_text)
-    r2 = re.compile(r"(?<!\")(https?://[^\s]+)")
-    q.question_text = r2.sub(r'<a href="\1">"\1"</a>', q.question_text)
-    return render_to_response('finalproject/rss_feed.rss', {
-        'question': q,
-        'answers': a,
-        'count': count,
-        'context': context,
-    }, template.RequestContext(request))
-
 class QuestionForm(djangoforms.ModelForm):
     class Meta:
         model = models.Question
