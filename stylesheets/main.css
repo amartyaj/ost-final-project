@@ -28,3 +28,27 @@ li {
 #message {
   color: #493D26;
 }
+
+#id_question_text {
+  vertical-align: top;
+  width: 80%;
+  height: 8em;
+}
+
+#id_question_tag {
+  vertical-align: top;
+  width: 80%;
+  height: 8em;
+}
+
+#id_answer_text {
+  vertical-align: top;
+  width: 80%;
+  height: 16em;
+}
+
+label {
+  display:block;
+  float:left;
+  width: 12%;
+}
