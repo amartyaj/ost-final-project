@@ -2,6 +2,7 @@ body {
   font-family: Verdana, Helvetica, Arial, sans-serif;
   background-color: #DDDAD6;
   padding: 4% 4% 4% 4%;
+  word-wrap: break-word;
 }
 
 li {
