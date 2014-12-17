@@ -916,7 +916,7 @@ def upload_image(request):
     images = models.Images.all().order('-date_uploaded')
     image_count = images.count()
 
-    if user:
+    if user and (request.method == 'POST'):
         images = form.save(commit=False)
         img_name = request.FILES['image'].name
         img = request.FILES['image'].read()
