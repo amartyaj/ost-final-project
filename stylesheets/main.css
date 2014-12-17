@@ -52,3 +52,7 @@ label {
   float:left;
   width: 12%;
 }
+
+.errorlist {
+  color: red;
+}
