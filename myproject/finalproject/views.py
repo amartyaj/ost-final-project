@@ -917,19 +917,20 @@ def upload_image(request):
     image_count = images.count()
 
     if user and (request.method == 'POST'):
-        images = form.save(commit=False)
+        image_object = form.save(commit=False)
         img_name = request.FILES['image'].name
         img = request.FILES['image'].read()
-        images.image = db.Blob(img)
-        images.date_uploaded = current_time
-        images.name = img_name
-        images.put()
-        return HttpResponseRedirect('/questions')
-            # else fall through to redisplay the form with error messages
+        image_object.image = db.Blob(img)
+        image_object.date_uploaded = current_time
+        image_object.name = img_name
+        image_object.put()
+        #return HttpResponseRedirect('/questions')
+        # else fall through to redisplay the form with error messages
 
         time.sleep(0.1)
         q = models.Question.all().order('-date_modified')
         count = q.count()
+        images = models.Images.all().order('-date_uploaded')
         return render_to_response('finalproject/index.html', {
             'context': context,
             'question_pages': question_pages,
